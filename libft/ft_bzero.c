@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 14:22:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 14:21:37 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:33:09 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-	DESCRIPTION :
-	The function ft_bzero erases data in the n bytes of memory starting
-	at location s by writing '\0's.
-
-	RETURN VALUE :
-	None.
-*/
 
 void	ft_bzero(void *s, size_t n)
 {

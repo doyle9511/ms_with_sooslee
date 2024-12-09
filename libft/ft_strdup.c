@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 16:03:27 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 15:58:22 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:36:10 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-	DESCRIPTION :
-	The function ft_strdup duplicates the given string s1 by allocating 
-	memory and performing a copy of the given string.
-
-	RETURN VALUE :
-	A pointer to the new string. NULL if the memory allocation fails.
-*/
 
 char	*ft_strdup(const char *s1)
 {

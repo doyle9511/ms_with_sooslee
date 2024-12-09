@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 15:50:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/05 15:37:01 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:32:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-	DESCRIPTION :
-	The function ft_strrchr finds the last occurrence of character c in
-	string str.
-
-	RETURN VALUE :
-	A pointer to the last occurrence of c in str.
-	NULL if c is not found.
-*/
 
 char	*ft_strrchr(const char *str, int c)
 {

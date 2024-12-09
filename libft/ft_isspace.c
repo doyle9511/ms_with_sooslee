@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 13:53:06 by mcombeau          #+#    #+#             */
-/*   Updated: 2022/11/10 00:57:38 by alexa            ###   ########.fr       */
+/*   Updated: 2024/12/09 19:34:42 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-	DESCRIPTION :
-	The function ft_isspace checks whether c is a space character or not.
-
-	RETURN VALUE:
-	Non-zero if c is a space, zero if not.
-*/
+#include "libft.h"
 
 int	ft_isspace(int c)
 {

@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcombeau <mcombeau@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 17:28:58 by mcombeau          #+#    #+#             */
-/*   Updated: 2021/12/02 15:13:17 by mcombeau         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:35:18 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-	DESCRIPTION :
-	The function ft_lstnew allocates memory for a new list node and 
-	initializes its content to the value passed as parameter, before
-	setting its next node to NULL. 
-
-	RESULT VALUE :
-	The new list ode.
-*/
 
 t_list	*ft_lstnew(void *content)
 {
