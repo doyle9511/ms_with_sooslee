@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/11 11:51:07 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:54:27 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 /******************************************************************************
 *								MACROS										  *
 ******************************************************************************/
-# define PROMPT "\001\e[45m\002>>> \001\e[0m\e[33m\002 Minishell>$ \001\e[0m\002"
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 
 # define CMD_NOT_FOUND 127
@@ -90,7 +89,6 @@ typedef struct s_command
 
 typedef struct s_data
 {
-	bool		interactive;
 	t_token		*token;
 	char		*user_input;
 	char		**env;
@@ -131,9 +129,7 @@ enum e_quoting_status {
 bool		init_data(t_data *data, char **env);
 void		init_io(t_command *cmd);
 
-/* ------------------------ ERROR & EXIT HANDLING ---------------------------*/
-// exit.c
-void		exit_shell(t_data *data, int exno);
+/* ------------------------- ERROR HANDLING ---------------------------------*/
 
 // error.c
 int			errmsg_cmd(char *command, char *detail, char *error_message,
@@ -148,7 +144,7 @@ void		free_io(t_io_fds *io);
 void		free_ptr(void *ptr);
 void		free_str_tab(char **tab);
 
-/* ------------------------ LEXER -----------------------------------------*/
+/* ------------------------- LEXER ------------------------------------------*/
 // parse_user_input.c
 bool		parse_user_input(t_data *data);
 

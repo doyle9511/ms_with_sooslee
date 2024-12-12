@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+         #
+#    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 17:30:23 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/10 16:47:11 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/12 16:07:12 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,13 @@ SRC		= 	main.c \
 			utils/init_data.c \
 			env/env.c \
 			env/env_set.c \
-			lexer/parse_user_input.c \
-			lexer/tokenization.c \
-			lexer/tokenization_utils.c \
-			lexer/check_if_var.c \
-			lexer/lexer_grammar.c \
-			lexer/token_lst_utils.c \
-			lexer/token_lst_utils_2.c \
+			tokenizer/parse_user_input.c \
+			tokenizer/tokenization.c \
+			tokenizer/tokenization_utils.c \
+			tokenizer/check_if_var.c \
+			tokenizer/lexer_grammar.c \
+			tokenizer/token_lst_utils.c \
+			tokenizer/token_lst_utils_2.c \
 			expansion/var_expander.c \
 			expansion/var_expander_utils.c \
 			expansion/identify_var.c \
@@ -87,7 +87,7 @@ all: $(OBJ_PATH) $(LIBFT) $(NAME)
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)/builtins
-	mkdir -p $(OBJ_PATH)/lexer
+	mkdir -p $(OBJ_PATH)/tokenizer
 	mkdir -p $(OBJ_PATH)/expansion
 	mkdir -p $(OBJ_PATH)/parser
 	mkdir -p $(OBJ_PATH)/testing

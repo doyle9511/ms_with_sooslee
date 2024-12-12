@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:50:51 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:33 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:21:59 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ int	env_var_count(char **env)
 }
 
 /* get_env_var_index:
-*	Searches for the given variable in the environment variables.
-*
-*	Returns the index of the variable in the environment
-*	matching the given string. Partial variable names are not
-*	supported: the given string must be a full variable name.
-*	Returns -1 if the string cannot be found in the environment.
-*/
+- 환경변수에서 주어진 변수 검색하는 함수
+- 일치하는 환경변수의 인덱스 반환
+- 미완성변수 지원X, 실패시 -1 반환 */
 int	get_env_var_index(char **env, char *var)
 {
 	int		i;
@@ -43,7 +39,7 @@ int	get_env_var_index(char **env, char *var)
 	if (!tmp)
 		return (-1);
 	i = 0;
-	while (env[i])
+	while (env[i] != NULL)
 	{
 		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
@@ -57,13 +53,8 @@ int	get_env_var_index(char **env, char *var)
 }
 
 /* get_env_var_value:
-*	Searches for the given variable in the environment variables.
-*
-*	Returns a pointer to the value of the variable in the environment
-*	matching the given string. Partial variable names are not
-*	supported: the given string must be a full variable name.
-*	Returns NULL if the string cannot be found in the environment.
-*/
+- 환경변수에서 변수검색해서 일치하는 환경변수 포인터 반환
+- 부분변수 지원 X, 문자열 못찾으면 NULL */
 char	*get_env_var_value(char **env, char *var)
 {
 	int		i;
@@ -73,7 +64,7 @@ char	*get_env_var_value(char **env, char *var)
 	if (!tmp)
 		return (NULL);
 	i = 0;
-	while (env[i])
+	while (env[i] != NULL)
 	{
 		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
 		{
@@ -87,10 +78,8 @@ char	*get_env_var_value(char **env, char *var)
 }
 
 /* is_valid_env_var_key:
-*	Checks if the key is a valid name for an evironment
-*	variable.
-*	Returns true if the key contains only alphanumeric chars
-*	or '_', or false if not.
+- key가 유효한지 확인하는 함수
+- 영문, 문자, '_'만 있는지 확인
 */
 bool	is_valid_env_var_key(char *var)
 {

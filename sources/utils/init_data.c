@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/10 17:57:45 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:07:18 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static bool	init_env(t_data *data, char **env)
 	int	i;
 
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
-	if (!data->env)
+	if (data->env == 0)
 		return (false);
 	i = 0;
-	while (env[i])
+	while (env[i] != 0)
 	{
 		data->env[i] = ft_strdup(env[i]);
-		if (!data->env[i])
+		if (data->env[i] == 0)
 			return (false);
 		i++;
 	}
@@ -48,19 +48,19 @@ static bool	init_wds(t_data *data)
 
 	wd = getcwd(buff, PATH_MAX);
 	data->working_dir = ft_strdup(wd);
-	if (!data->working_dir)
+	if (data->working_dir == 0)
 		return (false);
 	if (get_env_var_index(data->env, "OLDPWD") != -1)
 	{
 		data->old_working_dir = ft_strdup(get_env_var_value(data->env,
 					"OLDPWD"));
-		if (!data->old_working_dir)
+		if (data->old_working_dir == 0)
 			return (false);
 	}
 	else
 	{
 		data->old_working_dir = ft_strdup(wd);
-		if (!data->old_working_dir)
+		if (data->old_working_dir == 0)
 			return (false);
 	}
 	return (true);

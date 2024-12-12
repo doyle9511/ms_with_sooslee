@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:51:06 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:42 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:37:32 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* realloc_env_vars:
-*	Reallocates memory for the global variable g_env_vars.
+*	g_env_vars 메모리 재할당
 *
 *	Returns a pointer to the new environment variables
 *	or NULL in case of a memory allocation error.
@@ -24,10 +24,10 @@ static char	**realloc_env_vars(t_data *data, int size)
 	int		i;
 
 	new_env = ft_calloc(size + 1, sizeof * new_env);
-	if (!new_env)
+	if (new_env == NULL)
 		return (NULL);
 	i = 0;
-	while (data->env[i] && i < size)
+	while (data->env[i] != NULL && i < size)
 	{
 		new_env[i] = ft_strdup(data->env[i]);
 		free_ptr(data->env[i]);
@@ -74,24 +74,17 @@ bool	set_env_var(t_data *data, char *key, char *value)
 	return (true);
 }
 
-/* remove_env_var:
-*	Removes the variable at the given index from the
-*	environment variables.
-*
-*	Returns 1 if the removal was successful, 0 if case
-*	of an invalid index or a memory allocation error.
-*/
-bool	remove_env_var(t_data *data, int idx)
+bool	remove_env_var(t_data *data, int idx)// 환경변수에서 지정된 인덱스의 변수 제거
 {
 	int	i;
 	int	count;
 
-	if (idx > env_var_count(data->env))
+	if (idx > env_var_count(data->env))//변수갯수보다 인덱스가 크면 false
 		return (false);
-	free_ptr(data->env[idx]);
+	free_ptr(data->env[idx]);//지정 변수 삭제
 	i = idx;
 	count = idx;
-	while (data->env[i + 1])
+	while (data->env[i + 1] != NULL)
 	{
 		data->env[i] = ft_strdup(data->env[i + 1]);
 		free_ptr(data->env[i + 1]);
@@ -99,7 +92,7 @@ bool	remove_env_var(t_data *data, int idx)
 		i++;
 	}
 	data->env = realloc_env_vars(data, count);
-	if (!data->env)
+	if (data->env == NULL)
 		return (false);
 	return (true);
 }
