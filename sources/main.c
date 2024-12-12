@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:48:09 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 13:45:59 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,11 @@ static bool	start_check(t_data *data, int ac, char **av)
 	return (true);
 }
 
-/* minishell_interactive:
-*	Runs parsing and execution in interactive mode, i.e. when minishell
-*	is started without arguments and provides a prompt for user input.
-*/
-void	minishell_interactive(t_data *data)
+void	minishell_run(t_data *data)
 {
 	while (1)
 	{
-		set_signals_interactive();
+		set_signal();
 		data->user_input = readline(PROMPT);
 		set_signals_noninteractive();
 		if (parse_user_input(data) == true)
@@ -54,44 +50,6 @@ void	minishell_interactive(t_data *data)
 	}
 }
 
-/* minishell_noninteractive:
-*	Runs parsing and execution in noninteractive mode, i.e. when
-*	minishell is started with the -c option followed by an argument
-*	containing the commands to be executed:
-*		./minishell -c "echo hello | wc -c"
-*	Commands in this mode can be separated by a semicolon, ';' to
-*	indicate sequential execution:
-*		./minishell -c "echo hello; ls"
-*	-> echo hello is the first command run
-*	-> ls is the second
-*/
-void	minishell_noninteractive(t_data *data, char *arg)
-{
-	char	**user_inputs;
-	int		i;
-
-	user_inputs = ft_split(arg, ';');
-	if (!user_inputs)
-		exit_shell(data, EXIT_FAILURE);
-	i = 0;
-	while (user_inputs[i])
-	{
-		data->user_input = ft_strdup(user_inputs[i]);
-		if (parse_user_input(data) == true)
-			g_last_exit_code = execute(data);
-		else
-			g_last_exit_code = 1;
-		i++;
-		free_data(data, false);
-	}
-	free_str_tab(user_inputs);
-}
-
-/* main:
-*	Begins minishell. Checks input and determines if
-*	minishell should be run interactively or not.
-*	Exits the shell with the exit status or the last command.
-*/
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
@@ -99,10 +57,7 @@ int	main(int ac, char **av, char **env)
 	ft_memset(&data, 0, sizeof(t_data));//data 구조체 초기화
 	if (!start_check(&data, ac, av) || !init_data(&data, env))
 		exit_shell(NULL, EXIT_FAILURE);//시작조건 체크하고 초기화 실패시 종료 
-	if (data.interactive)
-		minishell_interactive(&data);
-	else
-		minishell_noninteractive(&data, av[2]);
+	minishell_run(&data);
 	exit_shell(&data, g_last_exit_code);
 	return (0);
 }

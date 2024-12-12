@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:05 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:57:45 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 static bool	init_env(t_data *data, char **env)
 {
-	int		i;
+	int	i;
 
 	data->env = ft_calloc(env_var_count(env) + 1, sizeof * data->env);
 	if (!data->env)

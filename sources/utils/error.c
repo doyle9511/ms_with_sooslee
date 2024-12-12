@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:15 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:13 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:55:06 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 *	Joins two strings together, freeing the previous string.
 *	Returns the new concatenated string. Or NULL if an error occured.
 */
-char	*join_strs(char *str, char *add)
+char	*join_strs(char *str, char *back_str)
 {
-	char	*tmp;
+	char	*temp;
 
-	if (!add)
+	if (back_str == NULL)
 		return (str);
-	if (!str)
-		return (ft_strdup(add));
-	tmp = str;
-	str = ft_strjoin(tmp, add);
-	free_ptr(tmp);
+	if (str == NULL)
+		return (ft_strdup(back_str));
+	temp = str;
+	str = ft_strjoin(temp, back_str);
+	free_ptr(temp);
 	return (str);
 }
 
@@ -51,28 +51,28 @@ static bool	add_detail_quotes(char *command)
 */
 int	errmsg_cmd(char *command, char *detail, char *error_message, int error_nb)
 {
-	char	*msg;
+	char	*message;
 	bool	detail_quotes;
 
 	detail_quotes = add_detail_quotes(command);
-	msg = ft_strdup("minishell: ");
+	message = ft_strdup("minishell: ");
 	if (command != NULL)
 	{
-		msg = join_strs(msg, command);
-		msg = join_strs(msg, ": ");
+		message = join_strs(message, command);
+		message = join_strs(message, ": ");
 	}
 	if (detail != NULL)
 	{
 		if (detail_quotes)
-			msg = join_strs(msg, "`");
-		msg = join_strs(msg, detail);
+			message = join_strs(message, "`");
+		message = join_strs(message, detail);
 		if (detail_quotes)
-			msg = join_strs(msg, "'");
-		msg = join_strs(msg, ": ");
+			message = join_strs(message, "'");
+		message = join_strs(message, ": ");
 	}
-	msg = join_strs(msg, error_message);
-	ft_putendl_fd(msg, STDERR_FILENO);
-	free_ptr(msg);
+	message = join_strs(message, error_message);
+	ft_putendl_fd(message, STDERR_FILENO);
+	free_ptr(message);
 	return (error_nb);
 }
 
@@ -86,12 +86,12 @@ void	errmsg(char *errmsg, char *detail, int quotes)
 
 	msg = ft_strdup("minishell: ");
 	msg = join_strs(msg, errmsg);
-	if (quotes)
+	if (quotes != '\0')
 		msg = join_strs(msg, " `");
 	else
 		msg = join_strs(msg, ": ");
 	msg = join_strs(msg, detail);
-	if (quotes)
+	if (quotes != '\0')
 		msg = join_strs(msg, "'");
 	ft_putendl_fd(msg, STDERR_FILENO);
 	free_ptr(msg);

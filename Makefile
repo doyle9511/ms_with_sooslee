@@ -6,7 +6,7 @@
 #    By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 17:30:23 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/09 19:21:02 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/10 16:47:11 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,8 @@ SRC		= 	main.c \
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
+# (Linux에서)INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
+INC = -I $(INC_PATH) -I $(LIBFT_PATH) -I /opt/homebrew/Cellar/readline/8.2.13/include
 
 # Libft files and directories
 LIBFT_PATH = ./libft/
@@ -102,8 +103,11 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 # Project file rule
+# (Linux에서) $(NAME): $(OBJS)
+#	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -l readline
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -l readline
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -L /opt/homebrew/Cellar/readline/8.2.13/lib -lreadline -lhistory
+
 
 # Libft rule
 $(LIBFT):

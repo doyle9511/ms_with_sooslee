@@ -6,92 +6,74 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:05:55 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:16 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:16:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* free_data:
-*	Frees all of the data used to run a command. If clear_history is true,
-*	frees the environment and the command history before returning.
-*/
-void	free_data(t_data *data, bool clear_history)
+void	free_data(t_data *data, bool clear_history)//사용했던 데이터 전부 해제
 {
-	if (data && data->user_input)
+	if (data != NULL && data->user_input != NULL)
 	{
 		free_ptr(data->user_input);
 		data->user_input = NULL;
 	}
-	if (data && data->token)
+	if (data != NULL && data->token != NULL)
 		lstclear_token(&data->token, &free_ptr);
-	if (data && data->cmd)
+	if (data != NULL && data->cmd != NULL)
 		lst_clear_cmd(&data->cmd, &free_ptr);
 	if (clear_history == true)
 	{
-		if (data && data->working_dir)
+		if (data != NULL && data->working_dir != NULL)
 			free_ptr(data->working_dir);
-		if (data && data->old_working_dir)
+		if (data != NULL && data->old_working_dir != NULL)
 			free_ptr(data->old_working_dir);
-		if (data && data->env)
+		if (data != NULL && data->env != NULL)
 			free_str_tab(data->env);
-		rl_clear_history();
+		rl_clear_history();//히스토리 초기화
 	}
 }
 
-/* close_fds:
-*	Closes opened file descriptors, including pipes and input and
-*	output fds. If close_backups is set to true, it also closes
-*	backup STDIN and STDOUT file descriptors.
-*/
-void	close_fds(t_command *cmds, bool close_backups)
+void	close_fds(t_command *cmds, bool close_backups)//fd 닫기
 {
-	if (cmds->io_fds)
+	if (cmds->io_fds != NULL)
 	{
 		if (cmds->io_fds->fd_in != -1)
 			close(cmds->io_fds->fd_in);
 		if (cmds->io_fds->fd_out != -1)
 			close(cmds->io_fds->fd_out);
-		if (close_backups)
+		if (close_backups != 0)
 			restore_io(cmds->io_fds);
 	}
 	close_pipe_fds(cmds, NULL);
 }
 
-/* free_io:
-*	Frees the input/output fd structure.
-*/
-void	free_io(t_io_fds *io)
+void	free_io(t_io_fds *io)//fd 구조체 해제
 {
-	if (!io)
+	if (io == NULL)
 		return ;
 	restore_io(io);
-	if (io->heredoc_delimiter)
-	{
-		unlink(io->infile);
+	if (io->heredoc_delimiter != NULL)
 		free_ptr(io->heredoc_delimiter);
-	}
-	if (io->infile)
+	if (io->infile != NULL)
 		free_ptr(io->infile);
-	if (io->outfile)
+	if (io->outfile != NULL)
 		free_ptr(io->outfile);
-	if (io)
+	if (io != NULL)
 		free_ptr(io);
 }
 
-/* free_str_tab:
-*	Frees an array of strings.
-*/
-void	free_str_tab(char **tab)
+void	free_str_tab(char **tab)//이중포인터 외부 해제
 {
 	int	i;
 
 	i = 0;
-	if (tab)
+	if (tab != NULL)
 	{
-		while (tab[i])
+		while (tab[i] != NULL)
 		{
-			if (tab[i])
+			if (tab[i] != NULL)
 			{
 				free_ptr(tab[i]);
 				tab[i] = NULL;
@@ -103,11 +85,7 @@ void	free_str_tab(char **tab)
 	}
 }
 
-/* free_ptr:
-*	Frees a pointer of any type if it is not NULL and sets it to NULL.
-*	This avoids accidental double-frees.
-*/
-void	free_ptr(void *ptr)
+void	free_ptr(void *ptr)//더블프리 방지용 조건
 {
 	if (ptr != NULL)
 	{

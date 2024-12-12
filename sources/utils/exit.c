@@ -6,17 +6,13 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:06:38 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:11 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:57:22 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* exit_shell:
-*	Cleanly exits the minishell program by closing all opened
-*	fds and freeing all allocated memory.
-*/
-void	exit_shell(t_data *data, int exno)
+void	exit_shell(t_data *data, int exit_num)//전부 닫고 해제하고 exit
 {
 	if (data)
 	{
@@ -24,5 +20,5 @@ void	exit_shell(t_data *data, int exno)
 			close_fds(data->cmd, true);
 		free_data(data, true);
 	}
-	exit(exno);
+	exit(exit_num);
 }

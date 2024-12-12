@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:59 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:05:50 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	get_exit_code(char *arg, bool *error)
 		*error = true;
 	while (arg[i])
 	{
-		if (!isdigit(arg[i]) && !ft_isspace(arg[i]))
+		if (!ft_isdigit(arg[i]) && !ft_isspace(arg[i]))
 			*error = true;
 		i++;
 	}

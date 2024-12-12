@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:06:43 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:20 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:37:15 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,7 @@ void	signal_reset_prompt(int signo)
 	rl_redisplay();
 }
 
-/* set_signals_interactive:
-*	Sets the behavior in response to SIGINT (ctrl-c) and SIGQUIT (ctrl-\).
-*	SIGINT resets the user input prompt to a new blank line.
-*	SIGQUIT is ignored.
-*	Used when minishell is in interactive mode, meaning it is awaiting
-*	user input.
-*/
-void	set_signals_interactive(void)
+void	set_signal(void)//SIGINT는 프롬프트를 새 빈줄로 재설정. SIGQUIT는 무시 
 {
 	struct sigaction	act;
 
@@ -48,23 +41,6 @@ void	signal_print_newline(int signal)
 {
 	(void)signal;
 	rl_on_new_line();
-}
-
-/* set_signals_noninteractive:
-*	Sets the behavior in response to SIGINT (ctrl -c) and SIGQUIT (ctrl -\).
-*	Used when minishell is in noninteractive mode, meaning it is not awaiting
-*	user input. For example, when a command is running (i.e. cat), minishell
-*	should not react to SIGINT and SIGQUIT because only the running process (cat)
-*	needs to react to those signals.
-*/
-void	set_signals_noninteractive(void)
-{
-	struct sigaction	act;
-
-	ft_memset(&act, 0, sizeof(act));
-	act.sa_handler = &signal_print_newline;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
 }
 
 /* ignore_sigquit:

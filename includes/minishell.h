@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:28:31 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:51:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -283,8 +284,7 @@ int			exit_builtin(t_data *data, char **args);
 
 // signal.c
 void		ignore_sigquit(void);
-void		set_signals_interactive(void);
-void		set_signals_noninteractive(void);
+void		set_signal(void);
 
 // execute.c
 int			execute(t_data *data);
