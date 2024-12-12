@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_heredoc_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:09:37 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 17:31:08 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:43:51 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,8 @@ bool	fill_heredoc(t_data *data, t_io_fds *io, int fd)
 	line = NULL;
 	while (1)
 	{
-		set_signals_interactive();
+		set_signal();
 		line = readline(">");
-		set_signals_noninteractive();
 		if (!evaluate_heredoc_line(data, &line, io, &ret))
 			break ;
 		ft_putendl_fd(line, fd);

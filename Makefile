@@ -6,7 +6,7 @@
 #    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 17:30:23 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/12 16:07:12 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/13 00:49:28 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME	= minishell
 
 # Compiler and compilation flags
-CC		= clang
+CC		= gcc
 CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g
 
 # Build files and directories
@@ -65,7 +65,6 @@ SRC		= 	main.c \
 			execution/parse_path.c \
 			redirections/pipe.c \
 			redirections/file_io.c \
-			utils/exit.c \
 			utils/error.c \
 			utils/cleanup.c \
 			signals/signal.c \
@@ -73,8 +72,8 @@ SRC		= 	main.c \
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-# (Linux에서)INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
-INC = -I $(INC_PATH) -I $(LIBFT_PATH) -I /opt/homebrew/Cellar/readline/8.2.13/include
+INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
+#INC = -I $(INC_PATH) -I $(LIBFT_PATH) -I /opt/homebrew/Cellar/readline/8.2.13/include
 
 # Libft files and directories
 LIBFT_PATH = ./libft/
@@ -103,10 +102,10 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 # Project file rule
-# (Linux에서) $(NAME): $(OBJS)
-#	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -l readline
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -L /opt/homebrew/Cellar/readline/8.2.13/lib -lreadline -lhistory
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -lreadline
+# $(NAME): $(OBJS)
+# 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -L /opt/homebrew/Cellar/readline/8.2.13/lib -lreadline -lhistory
 
 
 # Libft rule

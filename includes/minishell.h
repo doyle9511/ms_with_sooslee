@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/12 15:54:27 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:48:04 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ typedef struct s_data
 	t_token		*token;
 	char		*user_input;
 	char		**env;
-	char		*working_dir;
-	char		*old_working_dir;
+	char		*working_dir;//프로그램이 실행중인 디렉토리 경로(/donghwi2/goinfre/ms)
+	char		*old_working_dir;//직전 디렉토리
 	t_command	*cmd;
 	pid_t		pid;
 }	t_data;
@@ -143,6 +143,9 @@ void		close_fds(t_command *cmds, bool close_backups);
 void		free_io(t_io_fds *io);
 void		free_ptr(void *ptr);
 void		free_str_tab(char **tab);
+
+void		exit_shell(t_data *data, int exit_num);
+
 
 /* ------------------------- LEXER ------------------------------------------*/
 // parse_user_input.c
@@ -262,7 +265,7 @@ void		parse_pipe(t_command **cmd, t_token **token_lst);
 // env.c
 int			env_var_count(char **env);
 int			get_env_var_index(char **env, char *var);
-char		*get_env_var_value(char **env, char *var);
+char		*get_env_var_val(char **env, char *var);
 bool		is_valid_env_var_key(char *var);
 
 // env_set.c

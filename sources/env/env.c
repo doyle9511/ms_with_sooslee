@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:50:51 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/12 15:21:59 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:17:44 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	get_env_var_index(char **env, char *var)
 /* get_env_var_value:
 - 환경변수에서 변수검색해서 일치하는 환경변수 포인터 반환
 - 부분변수 지원 X, 문자열 못찾으면 NULL */
-char	*get_env_var_value(char **env, char *var)
+char	*get_env_var_val(char **env, char *var)
 {
 	int		i;
 	char	*tmp;

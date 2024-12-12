@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 19:03:08 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:28:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:44:41 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 static void	update_wds(t_data *data, char *wd)
 {
-	set_env_var(data, "OLDPWD", get_env_var_value(data->env, "PWD"));
+	set_env_var(data, "OLDPWD", get_env_var_val(data->env, "PWD"));
 	set_env_var(data, "PWD", wd);
 	if (data->old_working_dir)
 	{
@@ -90,7 +90,7 @@ int	cd_builtin(t_data *data, char **args)
 	if (!args || !args[1] || ft_isspace(args[1][0])
 		|| args[1][0] == '\0' || ft_strncmp(args[1], "--", 3) == 0)
 	{
-		path = get_env_var_value(data->env, "HOME");
+		path = get_env_var_val(data->env, "HOME");
 		if (!path || *path == '\0' || ft_isspace(*path))
 			return (errmsg_cmd("cd", NULL, "HOME not set", EXIT_FAILURE));
 		return (!change_dir(data, path));
@@ -99,7 +99,7 @@ int	cd_builtin(t_data *data, char **args)
 		return (errmsg_cmd("cd", NULL, "too many arguments", EXIT_FAILURE));
 	if (ft_strncmp(args[1], "-", 2) == 0)
 	{
-		path = get_env_var_value(data->env, "OLDPWD");
+		path = get_env_var_val(data->env, "OLDPWD");
 		if (!path)
 			return (errmsg_cmd("cd", NULL, "OLDPWD not set", EXIT_FAILURE));
 		return (!change_dir(data, path));

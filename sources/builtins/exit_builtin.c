@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 18:32:33 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/10 16:05:50 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:45:08 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	exit_builtin(t_data *data, char **args)
 
 	quiet = is_quiet_mode(data);
 	error = false;
-	if (!quiet && data->interactive)
+	if (!quiet)
 		ft_putendl_fd("exit", 2);
 	if (!args || !args[1])
 		exit_code = g_last_exit_code;

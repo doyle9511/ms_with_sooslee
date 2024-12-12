@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/12 15:55:11 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:41:32 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
+	(void)ac;
+	(void)av;
 	ft_memset(&data, 0, sizeof(t_data));//data 구조체 초기화
 	if (init_data(&data, env) == false)
 		exit_shell(NULL, EXIT_FAILURE);//시작조건 체크하고 초기화 실패시 종료 

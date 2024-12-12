@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:46:45 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/13 00:48:22 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	**get_paths_from_env(t_data *data)
 
 	if (get_env_var_index(data->env, "PATH") == -1)
 		return (NULL);
-	env_paths = ft_split(get_env_var_value(data->env, "PATH"), ':');
+	env_paths = ft_split(get_env_var_val(data->env, "PATH"), ':');
 	if (!env_paths)
 		return (NULL);
 	return (env_paths);

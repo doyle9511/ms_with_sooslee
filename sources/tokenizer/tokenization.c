@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:31:15 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 17:31:40 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/12 22:37:12 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-*	This function divides the given string (user input) into two
-*   types of tokens : words or separators (pipes, heredoc , etc)
-*	It checks each char of the string and defines if it is a separator or 
-*   a word and then saves the token in a linked list.
-*   Also checks if there is an unclosed quote error and defines which
-*   separators will be evaluated following the single or double quoting rules:
-*   
-*   -Without quotes, bash tries to evaluate all special characters
-*   -Single quotes (') prevent all evaluation
-*   -Double quotes (") prevent most evaluation,
-*		but notably not the evaluation of variables
-*
+이 함수는 문자열(사용자 입력)을 다음 두 가지 토큰으로 나누는 역할을 합니다:
+- 단어 토큰 vs 구분자 토큰 (파이프, heredoc 등)
+
+작동 방식
+- 문자열의 각 문자를 검사하여 구분자인지 단어인지 판단
+- 판단된 토큰을 연결 리스트(t_token)에 저장
+- 닫히지 않은 따옴표 오류 확인
+- 따옴표 규칙에 따라 특수문자 평가:
+	- 따옴표 없음: 모든 특수문자 평가
+	- 작은따옴표('): 모든 평가 방지
+	- 큰따옴표("): 대부분 평가 방지 (단, 변수는 평가됨)
 */
 
 int	tokenization(t_data *data, char *str)
