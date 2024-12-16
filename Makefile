@@ -6,7 +6,7 @@
 #    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 17:30:23 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/13 00:49:28 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/16 17:17:38 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,8 +67,8 @@ SRC		= 	main.c \
 			redirections/file_io.c \
 			utils/error.c \
 			utils/cleanup.c \
-			signals/signal.c \
-			debug/debug.c
+			utils/debug.c\
+			signals/signal.c
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
@@ -95,7 +95,6 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)/utils
 	mkdir -p $(OBJ_PATH)/redirections
 	mkdir -p $(OBJ_PATH)/signals
-	mkdir -p $(OBJ_PATH)/debug
 
 # Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
