@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 12:31:15 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/16 17:15:01 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:05:20 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,29 @@
 	- 큰따옴표("): 대부분 평가 방지 (단, 변수("$HOME")는 평가됨)
 */
 
-int	tokenization(t_data *data, char *str)
+int	tokenization(t_data *data, char *input)
 {
 	int	i;
 	int	end;
 	int	start;
-	int	status;
+	int	status;//따옴표 상태
 
 	i = -1;
 	start = 0;
-	end = ft_strlen(str);
+	end = ft_strlen(input);
 	status = DEFAULT;
 	while (++i <= end)
 	{
-		status = set_status(status, str, i);
+		status = set_status(status, input, i);
 		if (status == DEFAULT)//따옴표 안쪽이 아니면->
-			start = save_word_or_sep(&i, str, start, data);//token list에 type분류해서 add
+			start = save_word_or_sep(&i, input, start, data);//token list에 type분류해서 add
 	}
 	if (status != DEFAULT)
 	{
 		if (status == DQUOTE)
-			errmsg("unexpected EOF while looking for matching", "\"", true);
+			errmsg("unexpected QUOTE", "\"", true);
 		else if (status == SQUOTE)
-			errmsg("unexpected EOF while looking for matching", "\'", true);
+			errmsg("unexpected QUOTE", "\'", true);
 		errmsg("syntax error", "unexpected end of file", false);
 		return (1);
 	}

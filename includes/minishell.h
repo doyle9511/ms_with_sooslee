@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/13 00:48:04 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:00:36 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,32 @@ typedef struct s_token
 	char			*str;
 	char			*str_backup;
 	bool			var_exists;
+	int				status;//DEFAULT(0), SQUOTE(1), DQUOTE(2)
 	int				type;
-	int				status;
 	bool			join;
 	struct s_token	*prev;
 	struct s_token	*next;
 }	t_token;
+
 typedef struct s_io_fds
 {
 	char	*infile;
 	char	*outfile;
-	char	*heredoc_delimiter;
-	bool	heredoc_quotes;
 	int		fd_in;
 	int		fd_out;
 	int		stdin_backup;
 	int		stdout_backup;
+	char	*heredoc_delimiter;
+	bool	heredoc_quotes;
 }	t_io_fds;
+
 typedef struct s_command
 {
 	char				*command;
-	char				*path;
 	char				**args;
-	bool				pipe_output;
+	char				*path;
 	int					*pipe_fd;
+	bool				pipe_output;
 	t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;

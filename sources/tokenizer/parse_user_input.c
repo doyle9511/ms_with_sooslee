@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:01:18 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/16 17:12:00 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:28:46 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	parse_user_input(t_data *data)
 	add_history(data->user_input);//input값 연결리스트에 저장
 	if (tokenization(data, data->user_input) == FAILURE)//token화 완료
 		return (false);
-	if (data->token->type == END)
+	if (data->token->type == END)//바로 끝나면 false
 		return (false);
 	if (check_if_var(&data->token) == FAILURE)
 		return (false);
