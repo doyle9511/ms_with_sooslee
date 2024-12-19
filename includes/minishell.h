@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/16 18:00:36 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/19 14:40:24 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_token
 	char			*str_backup;
 	bool			var_exists;
 	int				status;//DEFAULT(0), SQUOTE(1), DQUOTE(2)
-	int				type;
+	int				type;//WORD, VAR, PIPE 등...
 	bool			join;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -163,11 +163,9 @@ int			is_separator(char *str, int i);
 int			save_word(t_token **token_lst, char *str, int index, int start);
 int			save_separator(t_token **token_lst, char *str, int index, int type);
 
-// lexer_grammar.c
-int			check_consecutives(t_token **token_lst);
-
 // check_if_var.c
 int			check_if_var(t_token **token_lst);
+int			check_consecutives(t_token **token_lst);
 
 // token_lst_utils.c
 t_token		*lst_new_token(char *str, char *str_backup, int type, int status);

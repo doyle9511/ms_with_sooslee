@@ -6,7 +6,7 @@
 #    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 17:30:23 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/16 17:17:38 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/19 14:39:55 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRC		= 	main.c \
 			tokenizer/tokenization.c \
 			tokenizer/tokenization_utils.c \
 			tokenizer/check_if_var.c \
-			tokenizer/lexer_grammar.c \
 			tokenizer/token_lst_utils.c \
 			tokenizer/token_lst_utils_2.c \
 			expansion/var_expander.c \
