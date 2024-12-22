@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:40:31 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/23 06:12:54 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,13 @@
 int	g_last_exit_code;
 
 /* get_children:
-*	Waits for children to terminate after cleaning up fds and the command
-*	list.
-*	Returns a child's exit status as bash does:
-*		"The return status (see Exit Status) of a simple command is its
-*		exit status as provided by the POSIX 1003.1 waitpid function, or
-*		128+n if the command was terminated by signal n."
-*	If there are multiple commands in a pipeline:
-*		"The exit status of a pipeline is the exit status of the last command
-*		in the pipeline"
+파일 디스크립터와 명령어 리스트를 정리한 후 자식 프로세스들의 종료 대기
+
+1. 단일 명령어의 경우:
+   - POSIX waitpid 함수가 제공하는 종료 상태를 반환
+   - 시그널로 종료된 경우 128+n 반환 (n:시그널 번호)
+2. 파이프라인의 경우:
+   - 파이프라인의 마지막 명령어의 종료 상태를 반환
 */
 static int	get_children(t_data *data)
 {
@@ -34,18 +32,18 @@ static int	get_children(t_data *data)
 	close_fds(data->cmd, false);
 	save_status = 0;
 	wpid = 0;
-	while (wpid != -1 || errno != ECHILD)
+	while (wpid != -1 || errno != ECHILD)//자식이 남아있는 동안
 	{
-		wpid = waitpid(-1, &status, 0);
-		if (wpid == data->pid)
-			save_status = status;
+		wpid = waitpid(-1, &status, 0);//아무 자식이나 대기
+		if (wpid == data->pid)//마지막 명령어라면
+			save_status = status;//상태 저장
 		continue ;
 	}
-	if (WIFSIGNALED(save_status))
+	if (WIFSIGNALED(save_status))//시그널로 종료된 경우(ctrl + C)
 		status = 128 + WTERMSIG(save_status);
-	else if (WIFEXITED(save_status))
+	else if (WIFEXITED(save_status))//정상종료된 경우
 		status = WEXITSTATUS(save_status);
-	else
+	else//기타
 		status = save_status;
 	return (status);
 }

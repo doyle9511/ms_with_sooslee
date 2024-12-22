@@ -6,17 +6,16 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:11:30 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:56:10 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/23 06:21:56 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* restore_io:
-*	Restores the original standard input and standard output
-*	to their original fds of 0 and 1. Used to clear the input/output
-*	fds after execution, in preparation for the next set of user commands.
-*	Returns 1 if the duplication was successful, 0 if not.
+원래의 표준 입력과 표준 출력을 원래의 파일 디스크립터 0과 1로 복원
+실행 후 입/출력 fd를 정리하고 다음 사용자 명령을 준비하는데 사용
+복제가 성공하면 1, 실패하면 0을 반환
 */
 bool	restore_io(t_io_fds *io)
 {
@@ -43,10 +42,9 @@ bool	restore_io(t_io_fds *io)
 }
 
 /* redirect_io:
-*	Duplicates the input and output fds to the standard input and output.
-*	Backs up the standard input and output before replacing them in order
-*	to restore them after execution.
-*	Returns 1 for success, 0 in case of error.
+입력과 출력 fd를 표준 입력과 출력으로 복제
+실행 후 복원하기 위해 표준 입력과 출력을 교체하기 전에 백업
+성공시 1, 오류시 0을 반환
 */
 bool	redirect_io(t_io_fds *io)
 {

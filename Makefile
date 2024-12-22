@@ -6,18 +6,13 @@
 #    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:56:21 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/23 06:03:36 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/23 06:06:57 by donghwi2         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Program file name
 NAME	= minishell
-
-# Compiler and compilation flags
 CC		= gcc
 CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g
-
-# Build files and directories
 SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
 INC_PATH = ./includes/
@@ -74,14 +69,11 @@ OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
 INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
 #INC = -I $(INC_PATH) -I $(LIBFT_PATH) -I /opt/homebrew/Cellar/readline/8.2.13/include
 
-# Libft files and directories
 LIBFT_PATH = ./libft/
 LIBFT = ./libft/libft.a
 
-# Main rule
 all: $(OBJ_PATH) $(LIBFT) $(NAME)
 
-# Objects directory rule
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(OBJ_PATH)/builtins
@@ -95,32 +87,25 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)/redirections
 	mkdir -p $(OBJ_PATH)/signals
 
-# Objects rule
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
-# Project file rule
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -lreadline
 # $(NAME): $(OBJS)
 # 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(INC) $(LIBFT) -L /opt/homebrew/Cellar/readline/8.2.13/lib -lreadline -lhistory
 
-
-# Libft rule
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
-# Clean up build files rule
 clean:
 	rm -rf $(OBJ_PATH)
 	make -C $(LIBFT_PATH) clean
 
-# Remove program executable
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT_PATH) fclean
 
-# Clean + remove executable
 re: fclean all
 
 .PHONY: all re clean fclean
