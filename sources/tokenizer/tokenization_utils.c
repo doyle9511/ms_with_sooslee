@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 12:34:40 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/16 18:06:16 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/11 17:52:37 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 05:58:47 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,15 @@ int	save_word_or_sep(int *i, char *input, int start, t_data *data)
 {
 	int	type;
 
-	type = is_separator(input, (*i));//공백, |, >, <, >>, <<, \0 타입반환, 
+	type = is_separator(input, (*i));//공백, |, >, <, >>, <<, \0 (이하 seperator) 타입반환, 
 	if (type != 0)//seperator이라면?
 	{
-		if ((*i) != 0 && is_separator(input, (*i) - 1) == 0)//직전이 seper이 아니라면?, 즉 i가 seper시작이면
-			save_word(&data->token, input, (*i), start);//seper이전까지의 word 저장
+		if ((*i) != 0 && is_separator(input, (*i) - 1) == 0)//직전이 seperator이 아니라면?, 즉 i가 seperator시작이면
+			save_word(&data->token, input, (*i), start);//seperator이전까지의 word 저장
 		if (type == APPEND || type == HEREDOC || type == PIPE
 			|| type == INPUT || type == TRUNC || type == END)
 		{
-			save_separator(&data->token, input, (*i), type);//seper저장
+			save_separator(&data->token, input, (*i), type);//seperator저장
 			if (type == APPEND || type == HEREDOC)
 				(*i)++;
 		}

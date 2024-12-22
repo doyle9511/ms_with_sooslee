@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 17:14:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/22 22:03:32 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/07 21:20:47 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 06:04:03 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ extern int	g_last_exit_code;
 typedef struct s_token
 {	
 	char			*str;
-	char			*str_backup;
+	char			*str_backup;//원래값 유지
 	bool			var_exists;
 	int				status;//DEFAULT(0), SQUOTE(1), DQUOTE(2)
 	int				type;//WORD, VAR, PIPE 등...
@@ -62,36 +62,36 @@ typedef struct s_token
 
 typedef struct s_io_fds
 {
-	char	*infile;
-	char	*outfile;
-	int		fd_in;
-	int		fd_out;
-	int		stdin_backup;
+	char	*infile;//입력 REDIR(<) 파일 경로
+	char	*outfile;//출력 REDIR(>) 파일 경로
+	int		fd_in;//입력파일 fd
+	int		fd_out;//출력파일 fd
+	int		stdin_backup;//REDIR 처리 과정에서 표준입출력 변경시 원상태 복구 위한 백업
 	int		stdout_backup;
-	char	*heredoc_delimiter;
-	bool	heredoc_quotes;
+	char	*heredoc_delimiter;//히어독 구분자(ex_EOF)
+	bool	heredoc_quotes;//구분자에 따옴표 있었는지 여부
 }	t_io_fds;
 
 typedef struct s_command
 {
-	char				*command;
-	char				**args;
-	char				*path;
-	int					*pipe_fd;
-	bool				pipe_output;
+	char				*command;//ex) echo, grep 등
+	char				**args;//ex) ["echo", "hello"] , ["grep", "l"] 등
+	char				*path;//ex) "/bin/echo", "/user/bin/grep" 등
+	int					*pipe_fd;//[6, 7] : 파이프 읽기쓰기
+	bool				pipe_output;// true면 파이프로 출력 존재 / false면 마지막명렁어
 	t_io_fds			*io_fds;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_command;
 
-typedef struct s_data
+typedef struct s_data//전체 프로그램 상태
 {
-	t_token		*token;
-	char		*user_input;
-	char		**env;
+	char		*user_input;//인풋 원본 ex) "echo hello > output.txt | grep l < input.txt >> append.txt"
+	t_token		*token;//토큰화된 인풋 연결리스트
+	char		**env;//환경변수 배열
 	char		*working_dir;//프로그램이 실행중인 디렉토리 경로(/donghwi2/goinfre/ms)
-	char		*old_working_dir;//직전 디렉토리
-	t_command	*cmd;
+	char		*old_working_dir;//직전 디렉토리 경로
+	t_command	*cmd;//첫 번째 명령어 구조체 포인터
 	pid_t		pid;
 }	t_data;
 
@@ -231,7 +231,7 @@ void		lst_clear_cmd(t_command **lst, void (*del)(void *));
 
 // parse_trunc.c
 void		parse_trunc(t_command **last_cmd, t_token **token_lst);
-char		*get_relative_path(char *file_to_open);
+//char		*get_relative_path(char *file_to_open);
 
 // parse_input.c
 bool		remove_old_file_ref(t_io_fds *io, bool infile);

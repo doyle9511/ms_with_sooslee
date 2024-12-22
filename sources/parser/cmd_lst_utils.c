@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_lst_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 00:22:15 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 17:31:27 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/19 19:12:41 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 05:46:05 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_command	*lst_new_cmd(bool value)
 	if (!(new_node))
 		return (NULL);
 	ft_memset(new_node, 0, sizeof(t_command));
-	new_node->pipe_output = value;
+	new_node->pipe_output = value;//파이프로 출력있으면 true / 마지막명령어라 출력없으면 false
 	initialize_cmd(&new_node);
 	return (new_node);
 }

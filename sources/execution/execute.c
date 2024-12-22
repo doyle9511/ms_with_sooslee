@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/22 22:19:30 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 05:40:31 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,12 @@ prep_for_exec:
 */
 static int	prep_for_exec(t_data *data)
 {
-	if (!data || !data->cmd)
+	if (!data || !data->cmd)//기본 유효성 검사
 		return (EXIT_SUCCESS);
 	if (!data->cmd->command)//명령어 없는 경우(= 리다이렉션만 있는 경우)
 	{
-		if (data->cmd->io_fds
-			&& !check_infile_outfile(data->cmd->io_fds))//입출력파일 있으면 성공
-			return (EXIT_FAILURE);
+		if (data->cmd->io_fds && !check_infile_outfile(data->cmd->io_fds))
+			return (EXIT_FAILURE);//입출력파일 확인
 		return (EXIT_SUCCESS);
 	}
 	if (!create_pipes(data))//파이프 생성

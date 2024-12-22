@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 17:09:12 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/13 00:25:05 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/13 08:01:26 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 06:02:38 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,6 @@ bool	init_data(t_data *data, char **env)
 	return (true);
 }
 
-/* init_io:
-*	Initializes a structure with default values to contain
-*	infile and outfile information for a command.
-*/
 void	init_io(t_command *cmd)
 {
 	if (!cmd->io_fds)

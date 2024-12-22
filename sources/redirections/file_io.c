@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_io.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/17 17:51:46 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:43 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/20 15:11:30 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 05:56:10 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,12 @@ bool	redirect_io(t_io_fds *io)
 	return (ret);
 }
 
-/* check_infile_outfile:
-*	Checks if the infile and outfile are set correctly.
-*	Returns 1 on success, 0 on failure.
-*/
-bool	check_infile_outfile(t_io_fds *io)
+bool	check_infile_outfile(t_io_fds *io)//infile + outfile 있는지 확인
 {
-	if (!io || (!io->infile && !io->outfile))
-		return (true);
-	if ((io->infile && io->fd_in == -1)
-		|| (io->outfile && io->fd_out == -1))
-		return (false);
-	return (true);
+	if (!io || (!io->infile && !io->outfile))//io가 NULL이거나 입/출력 파일 둘다 없음
+		return (true);//리다이렉션 없으면 OK
+	if ((io->infile && io->fd_in == -1)//입력파일 있는데 fd가 -1 : 파일열기 실패 
+		|| (io->outfile && io->fd_out == -1))//출력파일 있는데 fd가 -1 : 파일열기 실패
+		return (false);//리다이렉션 실패 FAIL
+	return (true);//모든 리다이렉션 성공 OK
 }

@@ -3,48 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   parse_trunc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 00:16:18 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:52 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/12/16 01:19:21 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/12/23 05:55:19 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-	TRUNC -> Redirection of output.
-	The file whose name results from the expansion of word has to be opened 
-    in writing mode on fd n or the standard output (fd 1) if n is not specified.
-    If the file does not exist it is created;
-    if it does exist it is truncated to 0 size.
+TRUNC -> 출력 리다이렉션
+word의 확장으로 생성된 파일명을 가진 파일은
+파일 디스크립터 n으로 쓰기 모드로 열려야 함.
+n이 지정되지 않은 경우 표준 출력(fd 1) 사용.
 
-	The general format for redirecting output is: [n]>[|]word
+파일이 존재하지 않으면: 새로 생성
+파일이 이미 존재하면: 크기를 0으로 truncate(내용 비우기)
+
+출력 리다이렉션의 일반적인 형식: [n]>[|]word
 */
 
-char	*get_relative_path(char *file_to_open)
-{
-	char	*path;
-	char	*ret;
+// char	*get_relative_path(char *file_to_open)//파일경로를 절대경로
+// {
+// 	char	*path;
+// 	char	*ret;
 
-	if (file_to_open[0] == '/')
-		return (ft_strdup(file_to_open));
-	path = ft_strdup("./");
-	ret = ft_strjoin(path, file_to_open);
-	printf("PARSING - Get_rel_path function return : %s\n", ret);
-	return (ret);
-}
+// 	if (file_to_open[0] == '/')
+// 		return (ft_strdup(file_to_open));
+// 	path = ft_strdup("./");
+// 	ret = ft_strjoin(path, file_to_open);
+// 	printf("PARSING - Get_rel_path function return : %s\n", ret);
+// 	return (ret);
+// }
 
 /* open_outfile_trunc:
-*	Opens an outfile in truncated mode. If an outfile was already set, frees it
-*	and overwrites it. If a previous infile or outfile open failed (file does
-*	not exist or permission denied), does not open any further output file.
-*
-*	Ex.:
-*		echo hello > forbidden_file > test
-*		echo hello >> forbidden_file > test
-*		< forbidden_file cat > test
-*	In these 3 cases, the test file should not be opened or created.
+출력 파일을 truncate 모드로 열기(깨끗히 비우고 새로 시작하는 모드)
+이미 출력 파일이 설정되어 있다면, 해제 + 덮어쓰기
+이전 입,출력 파일 열기 실패시 (파일 존재x || 권한x) -> 더 이상 출력파일 열기 x
+ex)
+1. echo hello > forbidden_file > test
+2. echo hello >> forbidden_file > test
+3. < forbidden_file cat > test
+이 세 경우 모두 test 파일은 열리거나 생성되지 않아야 함
 */
 static void	open_outfile_trunc(t_io_fds *io, char *file, char *var_filename)
 {
