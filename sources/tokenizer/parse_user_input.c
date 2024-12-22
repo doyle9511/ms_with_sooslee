@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_user_input.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:01:18 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/16 17:28:46 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:06:46 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ bool	parse_user_input(t_data *data)
 		return (false);
 	if (check_if_var(&data->token) == FAILURE)
 		return (false);
-	var_expander(data, &data->token);
-	handle_quotes(data);
-	create_commands(data, data->token);
+	var_expander(data, &data->token);// $ 들어있을 떄, 조건 살펴보고 $USER 처럼 들어오면 value 저장후 삭제
+	handle_quotes(data);// 조건에 따라 따옴표 지우기
+	create_commands(data, data->token);//token을 t_command 명령어 구조체에 쓸 수 있게 저장
 	return (true);
 }

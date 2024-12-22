@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:08:47 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/13 00:41:32 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:07:53 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	minishell_run(t_data *data)
 	{
 		set_signal();
 		data->user_input = readline("Minishell $>");
-		if (parse_user_input(data) == true)
+		if (parse_user_input(data) == true)//token화 시켜서 command로 전환
 			g_last_exit_code = execute(data);
 		else
 			g_last_exit_code = 1;

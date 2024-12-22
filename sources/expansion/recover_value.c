@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 16:26:14 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:26:53 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:57:06 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ static char	*search_env_var(t_data *data, char *var)
 	return (str);
 }
 
-char	*recover_val(t_token *token, char *str, t_data *data)
+char	*recover_val(t_token *token, char *token_str, t_data *data)
 {
 	char	*value;
 	char	*var;
 
-	var = identify_var(str);
-	if (var && var_exists(data, var) == 0)
+	var = identify_var(token_str);// "var_str=" 반환
+	if (var && var_exists(data, var) == 0)//"var"이 존재한다면
 	{
 		if (token != NULL)
 			token->var_exists = true;
-		value = search_env_var(data, var);
+		value = search_env_var(data, var);//value 저장
 	}
-	else if (var && var[0] == '?' && var[1] == '=')
-		value = ft_itoa(g_last_exit_code);
+	else if (var && var[0] == '?' && var[1] == '=')// "$?=" 이면
+		value = ft_itoa(g_last_exit_code);//g_last_exit_code를 value값에 저장
 	else
 		value = NULL;
 	free_ptr(var);

@@ -6,11 +6,13 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 12:17:42 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:46 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:34:41 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// 개발중 디버깅
 
 static void	print_cmd_args(t_command *cmd)
 {

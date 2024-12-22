@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 15:14:08 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 18:26:59 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 20:51:14 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,45 +27,45 @@ int	var_length(char *str)
 
 	count = 0;
 	i = 0;
-	while (str[i] != '$')
+	while (str[i] != '$')//$ 찾기
 		i++;
-	i++;
-	if ((str[i] >= '0' && str[i] <= '9') || str[i] == '?')
-		return (count + 1);
+	i++;//$ 다음 index
+	if ((str[i] >= '0' && str[i] <= '9') || str[i] == '?')//$ 다음이 숫자 혹은 ?라면
+		return (1);//1 반환
 	while (str[i])
 	{
-		if (is_var_compliant(str[i]) == false)
-			break ;
+		if (is_var_compliant(str[i]) == false)//알파벳, 숫자, '_' 전부 아니면
+			break ;//이때까지의 count 반환
 		count++;
 		i++;
 	}
 	return (count);
 }
 
-char	*identify_var(char *str)
+char	*identify_var(char *token_str)
 {
 	char	*var;
 	char	*tmp;
-	int		start;
+	int		start_i;
 	int		len;
 	int		i;
 
 	i = 0;
-	start = 0;
-	while (str[i])
+	start_i = 0;
+	while (token_str[i])
 	{
-		if (str[i] == '$')
+		if (token_str[i] == '$')//환경변수 시작 찾아서 시작 index 지정(start_i)
 		{
-			start = i + 1;
+			start_i = i + 1;
 			break ;
 		}
 		i++;
 	}
-	len = var_length(str);
-	var = ft_substr(str, start, len);
+	len = var_length(token_str);//$뒤의 환경변수 길이 구하기
+	var = ft_substr(token_str, start_i, len);//var 문자열 구하기
 	if (!var)
 		return (NULL);
-	tmp = ft_strjoin(var, "=");
+	tmp = ft_strjoin(var, "=");//var에 = 붙이기
 	free_ptr(var);
 	var = tmp;
 	return (var);

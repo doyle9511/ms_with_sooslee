@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:16:58 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 17:31:24 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:05:20 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	prep_no_arg_commands(t_data *data)
 	cmd = lst_last_cmd(data->cmd);
 }
 
-void	create_commands(t_data *data, t_token *token)
+void	create_commands(t_data *data, t_token *token)//토큰화된 입력을 [실행가능한 명령어 구조체(t_commend)]로 변환하는 핵심적인 파서
 {
 	t_token	*temp;
 
@@ -58,5 +58,5 @@ void	create_commands(t_data *data, t_token *token)
 		else if (temp->type == END)
 			break ;
 	}
-	prep_no_arg_commands(data);
+	prep_no_arg_commands(data);//인자없는 명령어 형식 맞추기
 }

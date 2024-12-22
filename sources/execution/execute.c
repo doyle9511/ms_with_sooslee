@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 17:09:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 18:27:09 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:19:30 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,8 @@ static int	get_children(t_data *data)
 }
 
 /* create_children:
-*	Creates a child process for each command to execute, except in the
-*	case of a builtin command that is not piped, which executes in the
-*	main process (no children created in this case).
-*	Returns true when a process was created for each command or when a
-*	builtin was executed alone.
-*	Returns false if there was a fork error.
+각 명령어를 실행하기 위한 자식 프로세스를 생성
+단, 파이프 없는 빌트인 명령어의 경우는 예외로 메인프로세스에서 실행 (자식 프로세스 생성x)
 */
 static int	create_children(t_data *data)
 {
@@ -76,32 +72,39 @@ static int	create_children(t_data *data)
 }
 
 /* prep_for_exec:
-*	Prepares the command list for execution, creates pipes
-*	and checks the input and output files.
-*	Returns false in case of error, true if all is ready to
-*	execute.
+prep_for_exec:
+명령어 리스트를 실행하기 위해 준비하는 과정
+- 파이프를 생성
+- 입력/출력 파일들을 확인
+실행 준비가 완료 -> true
 */
 static int	prep_for_exec(t_data *data)
 {
 	if (!data || !data->cmd)
 		return (EXIT_SUCCESS);
-	if (!data->cmd->command)
+	if (!data->cmd->command)//명령어 없는 경우(= 리다이렉션만 있는 경우)
 	{
 		if (data->cmd->io_fds
-			&& !check_infile_outfile(data->cmd->io_fds))
+			&& !check_infile_outfile(data->cmd->io_fds))//입출력파일 있으면 성공
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
-	if (!create_pipes(data))
+	if (!create_pipes(data))//파이프 생성
 		return (EXIT_FAILURE);
 	return (CMD_NOT_FOUND);
 }
 
 /* execute:
-*	Executes the given commands by creating children processes
-*	and waiting for them to terminate.
-*	Returns the exit code of the last child to terminate. Or
-*	exit code 1 in case of failure in the child creation process.
+- 주요 기능:
+	주어진 명령어들을 실행
+	자식 프로세스들을 생성
+	자식 프로세스들의 종료를 기다림
+- 반환값:
+	정상 실행: 마지막으로 종료된 자식 프로세스의 종료 코드
+	오류 발생: 자식 프로세스 생성 실패시 1을 반환
+- 동작 방식:
+	fork()를 통한 자식 프로세스 생성
+	부모 프로세스는 wait/waitpid로 자식들의 종료를 기다림
 */
 int	execute(t_data *data)
 {

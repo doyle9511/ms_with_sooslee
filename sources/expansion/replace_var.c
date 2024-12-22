@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 00:51:45 by alexa             #+#    #+#             */
-/*   Updated: 2024/12/09 18:26:45 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/22 21:19:31 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,17 @@ static int	erase_var(t_token **token_node, char *str, int index)
 	return (0);
 }
 
-// Changed return type from int to char * to adapt the function
-// to work for heredoc variable expansion. Heredoc has no tokens
-// so token_node becomes optional.
-// Heredoc variant replace_str_heredoc calls this function with
-// token_node == NULL!
-
+/*
+1. 반환 타입 변경:
+int에서 char *로 변경됨
+히어독의 변수 확장을 위해 수정됨
+2. 파라미터 변경 이유:
+히어독은 토큰을 사용하지 않음
+따라서 token_node 매개변수가 선택적(optional)이 됨
+3. 사용 예시:
+replace_str_heredoc 함수가 이 함수를 호출할 때
+token_node를 NULL로 전달함
+*/
 static char	*erase_and_replace(t_token **token_node, char *str,
 			char *var_value, int index)
 {
@@ -66,7 +71,7 @@ static char	*erase_and_replace(t_token **token_node, char *str,
 
 int	replace_var(t_token **token_node, char *var_value, int index)
 {
-	if (var_value == NULL)
+	if (var_value == NULL)//value값이 안들어왔을땐, var 지우기
 	{
 		if (erase_var(token_node, (*token_node)->str, index) == 1)
 		{
