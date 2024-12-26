@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 17:09:19 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 19:05:51 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	g_last_exit_code;
 static int	get_children(t_data *data)
 {
 	pid_t	pidt;
-	int		status;
+	int		stat;
 	int		save_stat;
 
 	close_fds(data->cmd, false);
@@ -42,7 +42,7 @@ static int	get_children(t_data *data)
 	if (WIFSIGNALED(save_stat))//시그널로 종료된 경우(ctrl + C)
 		stat = 128 + WTERMSIG(save_stat);
 	else if (WIFEXITED(save_stat))//정상종료된 경우
-		stat = WEXITSTAT(save_stat);
+		stat = WEXITSTATUS(save_stat);
 	else//기타
 		stat = save_stat;
 	return (stat);
