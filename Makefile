@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+         #
+#    By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:56:21 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/26 17:45:35 by donghwi2         ###   ########.fr        #
+#    Updated: 2024/12/26 23:18:02 by sooslee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CC		= gcc
-CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g
+CFLAGS	= -Werror -Wextra -Wall -gdwarf-4 -g -fsanitize=address
 SRC_PATH = ./sources/
 OBJ_PATH = ./objects/
 INC_PATH = ./includes/
