@@ -6,16 +6,18 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 21:53:12 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:53:35 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:29:22 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* make_str_from_tab:
-*	Creates a single string from an array of strings by
-*	joining a string to the next.
-*	Returns the string.
+문자열 배열을 하나의 문자열로 만듦.
+다음 문자열과 연결하여 하나의 문자열 생성.
+// 예시:
+// 입력: ["hello", "world", "!"]
+// 출력: "hello world !"
 */
 static char	*make_str_from_tab(char **tab)
 {
@@ -46,11 +48,9 @@ static char	*make_str_from_tab(char **tab)
 }
 
 /* get_exoanded_var_line:
-*	Prepares a line containing '$' for environment variable expansion.
-*	Splits the line into words to avoid issues with inexistent
-*	environment variables.
-*	ex. $USER uses $LANGUAGE -> username uses en_US:en
-*	Returns a new line with expanded variables.
+환경변수 확장을 위해 '$'가 포함된 라인을 준비.
+존재하지 않는 환경변수 문제를 피하기 위해 라인을 단어로 분리.
+예시: $USER uses $LANGUAGE -> username uses en_US:en
 */
 static char	*get_expanded_var_line(t_data *data, char *line)
 {
@@ -74,14 +74,12 @@ static char	*get_expanded_var_line(t_data *data, char *line)
 	return (make_str_from_tab(words));
 }
 
-/* evaluate_heredoc_line:
-*	Checks whether the read line should be written to heredoc file.
-*	If the line is NULL or the same as the given delimiter, returns false
-*	to signify that we should stop reading with readline. Otherwise, returns
-*	true.
+/* eval_herdoc_line:
+읽은 라인을 heredoc 파일에 써야 하는지 검사.
+라인이 NULL이거나 주어진 구분자와 같으면 false 반환 (readline으로 읽기 중단을 의미).
+그 외의 경우 true 반환.
 */
-static bool	evaluate_heredoc_line(t_data *data, char **line,
-									t_io_fds *io, bool *ret)
+static bool	eval_herdoc_line(t_data *data, char **line, t_io_fds *io, bool *ret)
 {
 	if (*line == NULL)
 	{
@@ -109,9 +107,13 @@ static bool	evaluate_heredoc_line(t_data *data, char **line,
 }
 
 /* fill_heredoc:
-*	Copies user input into a temporary file. If user inputs an environment variable
-*	like $USER, expands the variable before writing to the heredoc.
-*	Returns true on success, false on failure.
+사용자 입력을 임시 파일에 복사.
+사용자가 $USER와 같은 환경변수를 입력하면 heredoc에 쓰기 전에 변수를 확장.
+//예시:
+//	cat << EOF
+//	Hello $USER!
+//	Your home is $HOME
+//	EOF
 */
 bool	fill_heredoc(t_data *data, t_io_fds *io, int fd)
 {
@@ -124,7 +126,7 @@ bool	fill_heredoc(t_data *data, t_io_fds *io, int fd)
 	{
 		set_signal();
 		line = readline(">");
-		if (!evaluate_heredoc_line(data, &line, io, &ret))
+		if (!eval_herdoc_line(data, &line, io, &ret))
 			break ;
 		ft_putendl_fd(line, fd);
 		free_ptr(line);

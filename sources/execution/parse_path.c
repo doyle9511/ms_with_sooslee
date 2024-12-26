@@ -6,45 +6,45 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:46:18 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:41:09 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:18:04 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* find_valid_cmd_path:
-*	Checks access and permissions for each possible command path to find
-*	a valid path to binay files for a command.
-*	Returns the valid path to a command binary, or NULL if no valid path is
-*	found.
+명령어의 바이너리 파일에 대한 유효한 경로를 찾기 위해 각 가능한 명령어 경로의 접근권한과 허가 확인.
+유효한 명령어 바이너리 경로를 반환하거나, 유효한 경로가 없으면 NULL 반환.
 */
-static char	*find_valid_cmd_path(char *cmd, char **paths)
+static char	*find_valid_cmd_path(char *command, char **paths)
 {
 	int		i;
-	char	*cmd_path;
+	char	*command_path;
 
-	cmd_path = NULL;
+	command_path = NULL;
 	i = 0;
 	while (paths[i])
 	{
-		cmd_path = ft_strjoin(paths[i], cmd);
-		if (!cmd_path)
+		command_path = ft_strjoin(paths[i], command);
+		if (!command_path)
 		{
 			errmsg_cmd("malloc", NULL,
 				"an unexpected error occured", EXIT_FAILURE);
 			return (NULL);
 		}
-		if (access(cmd_path, F_OK | X_OK) == 0)
-			return (cmd_path);
-		free_ptr(cmd_path);
+		if (access(command_path, F_OK | X_OK) == 0)
+			return (command_path);
+		free_ptr(command_path);
 		i++;
 	}
 	return (NULL);
 }
 
 /* get_paths_from_env:
-*	Attempts to extract paths from the PATH environment variable.
-*	Returns an array of paths on success. On failure, returns NULL.
+PATH 환경변수에서 경로들을 추출 시도.
+성공시 경로 배열 반환. 실패시 NULL 반환.
+// PATH 환경변수 확인 후 ':' 기준으로 분리
+// 예: /usr/local/bin:/usr/bin:/bin
 */
 static char	**get_paths_from_env(t_data *data)
 {
@@ -59,34 +59,40 @@ static char	**get_paths_from_env(t_data *data)
 }
 
 /* get_cmd_path:
-*	Searches the PATH environment variable for the location of the given
-*	command's binary file.
-*	Returns the path to the command binary file. NULL if no valid path
-*	is found.
+주어진 명령어의 바이너리 파일 위치를 PATH 환경변수에서 검색.
+명령어 바이너리 파일의 경로 반환. 유효한 경로가 없으면 NULL 반환.
+
+# 예: ls 명령어 실행시
+	1. PATH=/usr/local/bin:/usr/bin:/bin  # PATH 환경변수 가져옴
+	2. 각 경로에 "/ls" 추가해서 검색:
+		- /usr/local/bin/ls
+		- /usr/bin/ls
+		- /bin/ls
+	3. 실행 가능한 첫 번째 경로 반환
 */
 char	*get_cmd_path(t_data *data, char *name)
 {
 	char	**env_paths;
-	char	*cmd;
-	char	*cmd_path;
+	char	*command;
+	char	*command_path;
 
 	if (!name)
 		return (NULL);
 	env_paths = get_paths_from_env(data);
 	if (!env_paths)
 		return (NULL);
-	cmd = ft_strjoin("/", name);
-	if (!cmd)
+	command = ft_strjoin("/", name);
+	if (!command)
 	{
 		free_str_tab(env_paths);
 		return (NULL);
 	}
-	cmd_path = find_valid_cmd_path(cmd, env_paths);
-	if (!cmd_path)
+	command_path = find_valid_cmd_path(command, env_paths);
+	if (!command_path)
 	{
-		free_ptr(cmd);
+		free_ptr(command);
 		free_str_tab(env_paths);
 		return (NULL);
 	}
-	return (cmd_path);
+	return (command_path);
 }

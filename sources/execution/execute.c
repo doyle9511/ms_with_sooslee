@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 16:38:20 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:09:19 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,27 @@ int	g_last_exit_code;
 */
 static int	get_children(t_data *data)
 {
-	pid_t	wpid;
+	pid_t	pidt;
 	int		status;
-	int		save_status;
+	int		save_stat;
 
 	close_fds(data->cmd, false);
-	save_status = 0;
-	wpid = 0;
-	while (wpid != -1 || errno != ECHILD)//자식이 남아있는 동안
+	save_stat = 0;
+	pidt = 0;
+	while (pidt != -1 || errno != ECHILD)//자식이 남아있는 동안
 	{
-		wpid = waitpid(-1, &status, 0);//아무 자식이나 대기
-		if (wpid == data->pid)//마지막 명령어라면
-			save_status = status;//상태 저장
+		pidt = waitpid(-1, &stat, 0);//아무 자식이나 대기
+		if (pidt == data->pid)//마지막 명령어라면
+			save_stat = stat;//상태 저장
 		continue ;
 	}
-	if (WIFSIGNALED(save_status))//시그널로 종료된 경우(ctrl + C)
-		status = 128 + WTERMSIG(save_status);
-	else if (WIFEXITED(save_status))//정상종료된 경우
-		status = WEXITSTATUS(save_status);
+	if (WIFSIGNALED(save_stat))//시그널로 종료된 경우(ctrl + C)
+		stat = 128 + WTERMSIG(save_stat);
+	else if (WIFEXITED(save_stat))//정상종료된 경우
+		stat = WEXITSTAT(save_stat);
 	else//기타
-		status = save_status;
-	return (status);
+		stat = save_stat;
+	return (stat);
 }
 
 /* create_children:

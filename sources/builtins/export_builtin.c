@@ -6,18 +6,15 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:34:59 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:36:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:02:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* get_key_value_pair:
-*	Separates the given argument into a key-value pair
-*	for the environment variable.
-*	Returns an array of 2 strings containing the key and the
-*	value of the new environment variable.
-*	Returns NULL in case of error.
+주어진 인자를 환경변수용 키-값 쌍으로 분리함.
+새로운 환경변수의 키와 값을 담은 2개의 문자열 배열 반환.
 */
 static char	**get_key_value_pair(char *arg)
 {
@@ -33,9 +30,8 @@ static char	**get_key_value_pair(char *arg)
 }
 
 /* export_builtin:
-*	Adds the given variables to the environment variables.
-*	Returns 0 if all args were successfully added to env,
-*	or 1 if one or more args were not added to env.
+주어진 변수들을 환경변수에 추가.
+모든 인자가 성공적으로 추가되면 0 반환,
 */
 int	export_builtin(t_data *data, char **args)
 {

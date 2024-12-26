@@ -6,17 +6,15 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:02:17 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 14:07:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:11:20 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* realloc_env_vars:
-*	g_env_vars 메모리 재할당
-*
-*	Returns a pointer to the new environment variables
-*	or NULL in case of a memory allocation error.
+g_env_vars 메모리 재할당
+새로운 환경변수 포인터 반환, 메모리 할당 에러시 NULL 반환.
 */
 static char	**realloc_env_vars(t_data *data, int size)
 {
@@ -38,13 +36,8 @@ static char	**realloc_env_vars(t_data *data, int size)
 }
 
 /* set_env_var:
-*	Adds an environment variable with the given key
-*	corresponding to the given value. If the key already
-*	exists in the environment variables, the value will
-*	be overwritten. If not, it creates a new entry.
-*
-*	Returns 1 if the operation was successful, or 0 if
-*	in case of error.
+주어진 키에 해당하는 환경변수를 주어진 값으로 설정.
+키가 이미 존재하면 값을 덮어쓰고, 없으면 새 항목 생성.
 */
 bool	set_env_var(t_data *data, char *key, char *value)
 {

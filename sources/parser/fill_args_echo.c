@@ -6,21 +6,18 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 19:12:38 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:52:20 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:51:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-**  This function deals with the specific case when the command is "echo"
-**    - It allocates the array of arguments thanks to the count_args function
-**    - It loops through the tokens list while the nodes are of type
-**        VAR or WORD: 
-**         * If "bool join = true" in the token structure is true : we join all
-**           the tokens of type VAR that have the setting "join = true"
-**         * if "join = false" we just fill the last_cmd_>args[i] 
-**            with the current token.
+이 함수는 명령어가 "echo"일 때의 특수한 경우를 다룸:
+- count_args 함수를 통해 인자 배열을 할당
+- VAR 또는 WORD 타입인 동안 토큰 리스트를 순회:
+토큰 구조체의 "bool join = true"이면: join = true로 설정된 모든 VAR 타입 토큰들을 연결
+join = false이면: 현재 토큰을 last_cmd->args[i]에 그대로 채움
 */
 int	create_args_echo_mode(t_token **token_node, t_command *last_cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 08:01:26 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 06:02:38 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:41:57 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static bool	init_words(t_data *data)
 }
 
 /* init_data:
-*	Initializes the data structure used in parsing and executing user input.
-*	Returns true if successful, false in case of error.
+data 구조체 초기화
 */
 bool	init_data(t_data *data, char **env)
 {

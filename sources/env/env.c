@@ -6,16 +6,12 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 11:16:49 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 14:12:36 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:12:07 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* env_var_count:
-*	Counts how many original environment variables there are.
-*	Returns the number of environment variables.
-*/
 int	env_var_count(char **env)
 {
 	int	i;

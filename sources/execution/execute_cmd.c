@@ -6,45 +6,41 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:52:37 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:39:14 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:49:06 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* execute_builtin:
-*	Executes the given command if it is a builtin command.
-*	Returns -1 if the command is not a builtin command.
-*	Returns 0 or 1 if the builtin command succeeded or failed.
+내장 명령어(cd, echo, env, export, pwd, unset, exit) 확인 및 실행
+성공시 0, 실패시 127 반환
 */
 int	execute_builtin(t_data *data, t_command *cmd)
 {
-	int	ret;
+	int	code;
 
-	ret = CMD_NOT_FOUND;
+	code = CMD_NOT_FOUND;
 	if (ft_strncmp(cmd->command, "cd", 3) == 0)
-		ret = cd_builtin(data, cmd->args);
+		code = cd_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "echo", 5) == 0)
-		ret = echo_builtin(data, cmd->args);
+		code = echo_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "env", 4) == 0)
-		ret = env_builtin(data, cmd->args);
+		code = env_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "export", 7) == 0)
-		ret = export_builtin(data, cmd->args);
+		code = export_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "pwd", 4) == 0)
-		ret = pwd_builtin(data, cmd->args);
+		code = pwd_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
-		ret = unset_builtin(data, cmd->args);
+		code = unset_builtin(data, cmd->args);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
-		ret = exit_builtin(data, cmd->args);
-	return (ret);
+		code = exit_builtin(data, cmd->args);
+	return (code);
 }
 
 /* execute_sys_bin:
-*	Executes the command's system binary file if it can be found
-*	among the environment executable paths.
-*	Returns CMD_NOT_FOUND if a path to the executable bin file cannot be
-*	found. Returns 1 in case of failure to run existing, executable
-*	file.
+환경변수 실행 경로에서 명령어의 시스템 바이너리 파일을 찾아 실행.
+실행 파일 경로를 찾을 수 없으면 127 반환.
 */
 static int	execute_sys_bin(t_data *data, t_command *cmd)
 {
@@ -61,11 +57,8 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 }
 
 /* execute_local_bin:
-*	Attempts to execute the given command as is, in case
-*	it is a local directory file or already contains the
-*	path to bin.
-*	Returns CMD_NOT_FOUND if the command is not an existing executable
-*	file. Returns 1 in case of failure to launch executable.
+주어진 명령어를 로컬 디렉토리 파일이나 이미 경로가 포함된 bin으로 실행 시도.
+존재하지 않는 실행 파일이면 CMD_NOT_FOUND 반환.
 */
 static int	execute_local_bin(t_data *data, t_command *cmd)
 {
@@ -80,20 +73,21 @@ static int	execute_local_bin(t_data *data, t_command *cmd)
 }
 
 /* execute_command:
-*	Child process tries to execute the given command by setting
-*	its input/output fds and searching for an executable.
-*	Searching for executable in this order:
-*		1. Execute builtin command
-*		2. Execute system binaries for command.
-*		3. Execute given command name directly (local bin)
-*	If it cannot find a matching builtin or executable,
-*	prints an error message.
-*	Child exits with it's executed program's exit code, or 1 if
-*	it could not find one.
+자식 프로세스가 입출력 fd를 설정하고 실행 파일을 검색하여 주어진 명령어 실행 시도.
+실행 파일 검색 순서:
+	1. 내장 명령어 실행
+	2. 시스템 바이너리 명령어 실행
+	3. 주어진 명령어 이름 직접 실행 (로컬 bin)
+일치하는 내장 명령어나 실행 파일을 찾지 못하면 에러 메시지 출력.
+자식은 실행된 프로그램의 종료 코드로 종료하거나, 찾지 못한 경우 1로 종료.
+
+ls -l        # 시스템 바이너리 실행
+./script.sh  # 로컬 바이너리 실행
+cd /home     # 내장 명령어 실행
 */
 int	execute_command(t_data *data, t_command *cmd)
 {
-	int	ret;
+	int	code;
 
 	if (!cmd || !cmd->command)
 		exit_shell(data, errmsg_cmd("child", NULL,
@@ -103,16 +97,16 @@ int	execute_command(t_data *data, t_command *cmd)
 	set_pipe_fds(data->cmd, cmd);
 	redirect_io(cmd->io_fds);
 	close_fds(data->cmd, false);
-	if (ft_strchr(cmd->command, '/') == NULL)
+	if (ft_strchr(cmd->command, '/') == NULL)//빌트인이나 PATH에서 찾을 수 있는 명령어
 	{
-		ret = execute_builtin(data, cmd);
-		if (ret != CMD_NOT_FOUND)
-			exit_shell(data, ret);
-		ret = execute_sys_bin(data, cmd);
-		if (ret != CMD_NOT_FOUND)
-			exit_shell(data, ret);
-	}
-	ret = execute_local_bin(data, cmd);
-	exit_shell(data, ret);
-	return (ret);
+		code = execute_builtin(data, cmd);
+		if (code != CMD_NOT_FOUND)
+			exit_shell(data, code);
+		code = execute_sys_bin(data, cmd);
+		if (code != CMD_NOT_FOUND)
+			exit_shell(data, code);
+	}// '/'가 있는 경우 ->경로가 명시된 로컬실행파일 -> 바로 execute_local_bin 실행
+	code = execute_local_bin(data, cmd);//ls, 혹은 ./ls 등 실행
+	exit_shell(data, code);
+	return (code);
 }

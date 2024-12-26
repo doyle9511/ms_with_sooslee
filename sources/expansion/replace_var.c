@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 19:12:11 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:43:58 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:20:22 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,18 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 }
 
 /* replace_str_heredoc:
-*	Heredoc variant of replace_var, replaces an environment variable
-*	by its value. Ex. $USER -> username.
-*	Returns the replaced string.
+replace_var의 히어독 변형 함수로, 환경변수를 그 값으로 치환.
+	예: $USER -> username
+치환된 문자열 반환.
+
+예시
+	cat << EOF
+	Hello $USER!
+	EOF
+	
+	# $USER가 "donghwi2"라면
+	# replace_str_heredoc 함수가 처리:
+	Hello donghwi2!
 */
 
 char	*replace_str_heredoc(char *str, char *var_value, int index)

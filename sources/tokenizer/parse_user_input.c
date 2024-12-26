@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:12:55 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:58:07 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:40:53 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ static bool	input_is_space(char *input)
 	return (true);
 }
 
-/* parse_user_input:
-*	Tokenizes and parses user input into a structure for execution.
-*	Returns true if successful, false in case of error.
-*/
 bool	parse_user_input(t_data *data)
 {
 	if (data->user_input == NULL)

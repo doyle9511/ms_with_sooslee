@@ -6,15 +6,14 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 18:34:26 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:35:26 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:59:43 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* check_out_of_range:
-*	Checks if the number goes over LONG_MAX or LONG_MIN.
-*	Sets an error boolean to true if the number is out of range, false if not.
+숫자가 LONG_MAX나 LONG_MIN을 초과하는지 확인.
 */
 static bool	check_out_of_range(int neg, unsigned long long num, bool *error)
 {
@@ -25,9 +24,7 @@ static bool	check_out_of_range(int neg, unsigned long long num, bool *error)
 }
 
 /* ft_atoi_long:
-*	Transforms a string comprised of digits into a long integer.
-*	Returns the long integer. In case of error, sets an error boolean
-*	to true.
+숫자로 구성된 문자열을 long 정수로 변환.
 */
 static int	ft_atoi_long(const char *str, bool *error)
 {
@@ -58,10 +55,10 @@ static int	ft_atoi_long(const char *str, bool *error)
 }
 
 /* get_exit_code:
-*	Gets the exit code from the arguments given to the exit builtin.
-*	Returns 0 if no arguments were provided.
-*	Returns 2 in case argument is not digits.
-*	Returns the numeric exit code on success.
+exit 내장 명령어에 제공된 인자에서 종료 코드를 가져옴.
+- 인자 없으면 0 반환
+- 인자가 숫자가 아니면 2 반환
+- 성공시 숫자형 종료 코드 반환
 */
 static int	get_exit_code(char *arg, bool *error)
 {
@@ -89,9 +86,8 @@ static int	get_exit_code(char *arg, bool *error)
 }
 
 /* is_quiet_mode:
-*	If exit is not called alone, it should not print "exit".
-*	Returns true if exit should not be printed. False if exit was called
-*	alone and the "exit" message should be printed.
+exit가 단독으로 호출되지 않았다면 "exit" 출력하지 않음.
+exit 메시지를 출력하지 말아야 하면 true, 단독 호출되어 출력해야 하면 false 반환.
 */
 static bool	is_quiet_mode(t_data *data)
 {
@@ -106,12 +102,15 @@ static bool	is_quiet_mode(t_data *data)
 }
 
 /* exit_builtin:
-*	Executes the exit builtin.
-*	If alone, prints exit and exits the shell with the provided exit code, or 0.
-*	If piped, exits the child process with the provided exit code and does not exit
-*	minishell.
-*	In case of failure due to invalid arguments, does not exit the shell
-*	and returns an error exit code (1 or 2) instead.
+exit 내장 명령어 실행.
+- 단독 실행: exit 출력하고 제공된 코드로 쉘 종료
+- 파이프라인: 자식 프로세스만 종료, minishell은 계속 실행
+- 잘못된 인자로 실패시 쉘 종료하지 않고 에러 코드(1 또는 2) 반환
+
+exit          # 마지막 명령어의 종료 코드로 종료
+exit 42       # 42로 종료
+exit abc      # 에러: numeric argument required
+exit 42 43    # 에러: too many arguments
 */
 int	exit_builtin(t_data *data, char **args)
 {
