@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 13:53:06 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:34:36 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/26 23:06:55 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/04 16:08:10 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
-		return (c);
-	return (0);
+		return (1);
+	else
+		return (0);
 }

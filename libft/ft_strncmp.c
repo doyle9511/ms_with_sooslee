@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 17:09:14 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:32:15 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/27 20:54:14 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/07 04:52:30 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
+	size_t			i;
+	unsigned char	*ss1;
+	unsigned char	*ss2;
 
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
 	i = 0;
-	if (n == 0)
-		return (0);
-	while ((s1[i] != '\0' && s2[i] != '\0')
-		&& (i < n - 1) && s1[i] == s2[i])
+	while (i + 1 <= n && (*ss1 != '\0' || *ss2 != '\0'))
+	{
+		if (*ss1 != *ss2)
+			return (*ss1 - *ss2);
+		ss1++;
+		ss2++;
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (0);
 }
+/*
+#include <stdio.h>
+int	main(){
+	printf("%d \n", ft_strncmp("omg1||", "omg3", 4));
+	return (0);
+}//*/

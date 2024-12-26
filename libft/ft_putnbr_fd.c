@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 06:22:02 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:51 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/29 21:08:36 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/04 22:04:14 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	long	nbr;
-
-	nbr = n;
-	if (nbr < 0)
+	if (n == -2147483648)
 	{
-		ft_putchar_fd('-', fd);
-		nbr = -nbr;
+		write(fd, "-2147483648", 11);
+		return ;
 	}
-	if (nbr >= 10)
+	if (n < 0)
 	{
-		ft_putnbr_fd(nbr / 10, fd);
-		ft_putchar_fd((nbr % 10) + '0', fd);
+		n *= -1;
+		write(fd, "-", 1);
+	}
+	if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + '0', fd);
 	}
 	else
-		ft_putchar_fd(nbr + '0', fd);
+		ft_putchar_fd(n + '0', fd);
 }

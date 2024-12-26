@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:34:19 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:14 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/03/04 15:09:58 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/07 03:46:12 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*newlst;
-	t_list	*node;
+	t_list	*new_list;
+	t_list	*first_list;
+	t_list	*temp;
 
-	if (!lst)
+	new_list = (t_list *)malloc(sizeof(t_list));
+	if (new_list == NULL || lst == NULL || f == NULL)
 		return (NULL);
-	newlst = NULL;
-	node = NULL;
-	while (lst)
+	first_list = new_list;
+	while (lst != NULL)
 	{
-		if (!f)
-			node = ft_lstnew(lst->content);
-		else
-			node = ft_lstnew(f(lst->content));
-		if (!node)
-		{
-			ft_lstclear(&newlst, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&newlst, node);
+		new_list->content = f(lst->content);
+		temp = new_list;
 		lst = lst->next;
+		new_list = (t_list *)malloc(sizeof(t_list));
+		if (new_list == NULL)
+			return (NULL);
+		if (lst == NULL)
+			del(new_list);
+		else
+			temp->next = new_list;
 	}
-	return (newlst);
+	temp->next = NULL;
+	return (first_list);
 }

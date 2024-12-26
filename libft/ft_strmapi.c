@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 04:35:39 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:32:18 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/29 11:45:58 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/05 15:21:55 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,29 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char			*str;
-	unsigned int	i;
+	int		i;
+	int		len;
+	char	*str;
+	char	*temp_s;
 
-	if (!s || (!s && !f))
-		return (ft_strdup(""));
-	else if (!f)
-		return (ft_strdup(s));
-	str = ft_strdup(s);
-	if (!str)
+	temp_s = (char *)s;
+	len = ft_strlen(temp_s);
+	str = (char *)malloc((sizeof(char) * (len + 1)));
+	if (str == NULL)
 		return (NULL);
 	i = 0;
-	while (s[i])
+	while (i < len)
 	{
-		str[i] = (*f)(i, s[i]);
+		str[i] = f(i, temp_s[i]);
 		i++;
 	}
+	str[i] = '\0';
 	return (str);
 }
+/*
+#include <stdio.h>
+int	main(){
+	char str[] = "aaaaaa";
+	printf("%s \n", ft_strmapi(str, &ft_test));
+	return (0);
+}//*/

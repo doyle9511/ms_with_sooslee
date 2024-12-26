@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/22 13:50:49 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:34:39 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/26 23:25:28 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/05 04:18:04 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_isprint(int c)
 {
-	if (c >= ' ' && c <= '~')
-		return (c);
-	return (0);
+	if (c >= 32 && c < 127)
+		return (1);
+	else
+		return (0);
 }

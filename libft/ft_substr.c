@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/26 16:50:44 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:31:51 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/28 11:17:35 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/07 04:31:58 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,18 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*res;
-	char	*src;
-	size_t	reslen;
+	size_t	i;
+	char	*substring;
 
-	if (!s)
+	i = 0;
+	substring = (char *)malloc((len + 1) * sizeof(char));
+	if (substring == NULL)
 		return (NULL);
-	if (ft_strlen(s) < (size_t)start)
-		return (ft_strdup(""));
-	src = (char *)s + start;
-	if (ft_strlen(src) < len)
-		reslen = ft_strlen(src) + 1;
-	else
-		reslen = len + 1;
-	res = malloc(reslen * sizeof(char));
-	if (!res)
-		return (NULL);
-	ft_strlcpy(res, src, reslen);
-	return (res);
+	while (s[start + i] != '\0' && i < len && start < ft_strlen(s))
+	{
+		substring[i] = s[start + i];
+		i++;
+	}
+	substring[i] = '\0';
+	return (substring);
 }

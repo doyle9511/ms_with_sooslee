@@ -3,39 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 18:06:58 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:33:04 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/27 22:49:54 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/04 22:05:05 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *ptr)
 {
-	int	num;
-	int	isneg;
 	int	i;
+	int	sign;
+	int	result;
 
-	num = 0;
-	isneg = 1;
 	i = 0;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'
-			|| str[i] == '\n' || str[i] == '\r'
-			|| str[i] == '\v' || str[i] == '\f'))
+	sign = 1;
+	result = 0;
+	while ((ptr[i] >= 9 && ptr[i] <= 13) || ptr[i] == 32)
 		i++;
-	if (str[i] == '+')
-		i++;
-	else if (str[i] == '-')
+	if (ptr[i] == '+' || ptr[i] == '-')
 	{
-		isneg *= -1;
+		if (ptr[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	while (ft_isdigit(str[i]))
+	while (ptr[i] >= '0' && ptr[i] <= '9')
 	{
-		num = (num * 10) + (str[i] - '0');
+		result = result * 10 + (ptr[i] - 48);
 		i++;
 	}
-	return (num * isneg);
+	return (result * sign);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:11:58 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:01 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/03/04 14:58:15 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/07 00:13:04 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,28 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list	*tmp;
+	t_list	*temp;
 
-	if (!lst)
+	if (lst == NULL || del == NULL)
 		return ;
-	while (*lst)
+	while (*lst != NULL)
 	{
-		tmp = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = tmp;
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = temp;
 	}
 	*lst = NULL;
 }
+/*
+#include <stdio.h>
+int	main(){
+	t_list *lst1;
+	t_list *lst2;
+	t_list *lst3;
+	lst1->content = "123"; lst1->next = lst2;
+	lst2->content = "456"; lst2->next = lst3;
+	lst3->content = "789"; lst3->next = NULL;
+	t_list *lst[3] = {lst1, lst2, lst3};
+	ft_lstclear(lst, del);
+}//*/

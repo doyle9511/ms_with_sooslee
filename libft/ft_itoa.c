@@ -3,68 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/27 18:04:16 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:34:47 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/28 23:20:43 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/04 22:01:53 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_itoa_len(long num)
+char	*ft_count_digit(long long n)
 {
-	size_t	len;
+	int			digit_num;
+	long long	temp_n;
+	char		*str;
 
-	len = 0;
-	if (num == 0)
-		return (1);
-	if (num < 0)
+	digit_num = 0;
+	temp_n = n;
+	while (temp_n > 0)
 	{
-		len++;
-		num = -num;
+		temp_n /= 10;
+		digit_num++;
 	}
-	while (num >= 1)
-	{
-		len++;
-		num /= 10;
-	}
-	return (len);
-}
-
-static char	*ft_num_to_str(long num, char *str, size_t len)
-{
-	str = ft_calloc(len + 1, sizeof(char));
+	str = (char *)malloc(sizeof(char) * (digit_num + 2));
 	if (str == NULL)
 		return (NULL);
-	if (num < 0)
+	str[digit_num + 1] = '\0';
+	while (digit_num >= 1)
 	{
-		str[0] = '-';
-		num = -num;
+		str[digit_num] = n % 10 + '0';
+		n /= 10;
+		digit_num--;
 	}
-	len--;
-	while (len)
-	{
-		str[len] = (num % 10) + '0';
-		num /= 10;
-		len--;
-	}
-	if (str[0] != '-')
-		str[0] = (num % 10) + '0';
+	str[0] = '-';
+	return (str);
+}
+
+char	*ft_if_zero(void)
+{
+	char	*str;
+
+	str = (char *)malloc(sizeof(char) * 2);
+	if (str == NULL)
+		return (NULL);
+	str[0] = '0';
+	str[1] = '\0';
 	return (str);
 }
 
 char	*ft_itoa(int n)
 {
-	long	num;
-	size_t	len;
-	char	*str;
+	int			i;
+	int			sign;
+	char		*str;
+	long long	long_n;
 
-	num = n;
-	len = ft_itoa_len(num);
-	str = 0;
-	str = ft_num_to_str(num, str, len);
-	if (!str)
-		return (NULL);
+	long_n = (long long)n;
+	sign = 1;
+	if (long_n == 0)
+		str = ft_if_zero();
+	else
+	{
+		if (long_n < 0)
+		{
+			sign *= -1;
+			long_n *= -1;
+		}
+		str = ft_count_digit(long_n);
+		i = -1;
+		if (sign == 1)
+		{
+			while (str[++i] != '\0')
+				str[i] = str[i + 1];
+		}
+	}
 	return (str);
 }
+
+/*
+#include <stdio.h>
+int	main(){
+	char * str = ft_itoa(1);
+	printf("%s \n", str);
+	free(str);
+	return (0);
+}
+*/

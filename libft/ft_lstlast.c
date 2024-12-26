@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 19:48:52 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:11 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/03/04 14:29:58 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/07 04:01:35 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
+	if (lst == NULL)
 		return (NULL);
-	while (lst != NULL && lst->next != NULL)
+	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst);
 }

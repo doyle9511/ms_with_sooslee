@@ -6,16 +6,15 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 12:01:51 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:44:34 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:17:53 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-*  After splitting the user's input into tokens, we have to expand 
-*  the variables. After the expansion is done, quote characters are
-*  removed from the original word unless they are between quotes.
+사용자의 입력을 토큰으로 분할한 후, 변수들을 확장해야 함(expand).
+변수 확장이 완료되면, 따옴표 안에 있지 않은 따옴표 문자들은 원래 단어에서 제거.
 */
 
 static void	update_status(t_token **token_node, char c)

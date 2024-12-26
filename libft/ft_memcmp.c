@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/25 22:41:23 by mcombeau          #+#    #+#             */
-/*   Updated: 2024/12/09 19:35:28 by donghwi2         ###   ########.fr       */
+/*   Created: 2024/02/27 21:44:47 by donghwi2          #+#    #+#             */
+/*   Updated: 2024/03/05 01:17:34 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,25 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	const char	*str1;
-	const char	*str2;
-	size_t		i;
+	size_t			i;
+	unsigned char	*ss1;
+	unsigned char	*ss2;
 
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
+	i = 0;
 	if (n == 0)
 		return (0);
-	str1 = (const char *)s1;
-	str2 = (const char *)s2;
-	i = 0;
-	while ((i < n - 1) && str1[i] == str2[i])
+	while (i + 1 < n && (ss1)[i] == (ss2)[i])
 		i++;
-	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+	return ((ss1)[i] - (ss2)[i]);
 }
+/*
+#include <stdio.h>
+int	main(){
+	char s1[] = {1 ,0 ,0 ,1 };
+	char s2[] = {0 ,0 ,0 ,2 };
+	int	num = ft_memcmp(s1, s2, 1);
+	printf("%d \n", num);
+	return 0;
+}//*/
