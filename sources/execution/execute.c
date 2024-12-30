@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 19:05:51 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/12/29 03:08:09 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ int	g_last_exit_code;
 	- 시그널로 종료된 경우 128+n 반환 (n:시그널 번호)
 2. 파이프라인의 경우:
 	- 파이프라인의 마지막 명령어의 종료 상태를 반환
+참고
+	매크로
+	- ECHILD : 10; 
+	- WIFSIGNALE(status)	: 시그널로 종료됐는지 확인
+	- WTERMSIG(status) 	: 어떤 시그널로 종료됐는지 반환
+	- WIFEXITED(status) 	: 정싱종료(exit 호출) 됐는지 확인
+	- WEXITSTATUS(status) : exit호출시 전달된 상태값 반환(0~255)
 */
 static int	get_children(t_data *data)
 {
@@ -31,11 +38,11 @@ static int	get_children(t_data *data)
 
 	close_fds(data->cmd, false);
 	save_stat = 0;
-	pidt = 0;
-	while (pidt != -1 || errno != ECHILD)//자식이 남아있는 동안
+	pidt = 0;//-1이면 모든 자식프로세스가 종료되었다는 뜻
+	while (pidt != -1 || errno != ECHILD)//자식이 하나라도 남아있는 동안
 	{
 		pidt = waitpid(-1, &stat, 0);//아무 자식이나 대기
-		if (pidt == data->pid)//마지막 명령어라면
+		if (pidt == data->pid)//마지막 명령어면
 			save_stat = stat;//상태 저장
 		continue ;
 	}
@@ -105,19 +112,19 @@ static int	prep_for_exec(t_data *data)
 */
 int	execute(t_data *data)
 {
-	int	ret;
+	int	code;
 
-	ret = prep_for_exec(data);
-	if (ret != CMD_NOT_FOUND)
-		return (ret);
+	code = prep_for_exec(data);//명령어 리스트 실행위해 준비(파이프 생성, 입출력파일 검증)
+	if (code != CMD_NOT_FOUND)
+		return (code);
 	if (!data->cmd->pipe_output && !data->cmd->prev
-		&& check_infile_outfile(data->cmd->io_fds))
+		&& check_infile_outfile(data->cmd->io_fds))//infile / outfile 존재하면
 	{
 		redirect_io(data->cmd->io_fds);
-		ret = execute_builtin(data, data->cmd);
+		code = execute_builtin(data, data->cmd);
 		restore_io(data->cmd->io_fds);
 	}
-	if (ret != CMD_NOT_FOUND)
-		return (ret);
+	if (code != CMD_NOT_FOUND)
+		return (code);
 	return (create_children(data));
 }
