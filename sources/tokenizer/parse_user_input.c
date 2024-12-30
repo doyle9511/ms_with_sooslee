@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_user_input.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:12:55 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 17:40:53 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/29 02:46:06 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ bool	parse_user_input(t_data *data)
 		return (false);
 	var_expander(data, &data->token);// $ 들어있을 떄, 조건 살펴보고 $USER 처럼 들어오면 value 저장후 삭제
 	handle_quotes(data);// 조건에 따라 따옴표 지우기
-	create_commands(data, data->token);//token을 t_command 명령어 구조체에 쓸 수 있게 저장
+	create_commands(data, data->token);//token을 이용하여 t_command 명령어 구조체 생성
 	return (true);
 }

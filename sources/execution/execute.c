@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/27 00:53:28 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/29 03:08:09 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	execute(t_data *data)
 	if (code != CMD_NOT_FOUND)
 		return (code);
 	if (!data->cmd->pipe_output && !data->cmd->prev
-		&& check_infile_outfile(data->cmd->io_fds))
+		&& check_infile_outfile(data->cmd->io_fds))//infile / outfile 존재하면
 	{
 		redirect_io(data->cmd->io_fds);
 		code = execute_builtin(data, data->cmd);
