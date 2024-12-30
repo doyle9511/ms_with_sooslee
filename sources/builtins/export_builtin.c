@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:34:59 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/27 00:11:02 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/12/30 19:04:26 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,23 @@ static char	**get_key_value_pair(char *arg)
 	char	**tmp;
 	char	*eq_pos;
 
-	eq_pos = ft_strchr(arg, '=');
-	tmp = malloc(sizeof * tmp * (2 + 1));
-	tmp[0] = ft_substr(arg, 0, eq_pos - arg);	
-	tmp[1] = ft_substr(eq_pos, 1, ft_strlen(eq_pos));
-	tmp[2] = NULL;
-	return (tmp);
+	if (ft_strchr(arg, '=') == NULL)
+	{
+		tmp = malloc(sizeof * tmp * (2 + 1));
+		tmp[0] = ft_substr(arg, 0, ft_strlen(arg));
+		tmp[1] = NULL;
+		return (tmp);
+	}
+	else
+	{
+		eq_pos = ft_strchr(arg, '=');
+		tmp = malloc(sizeof * tmp * (2 + 1));
+		tmp[0] = ft_substr(arg, 0, eq_pos - arg);	
+		tmp[1] = ft_substr(eq_pos, 1, ft_strlen(eq_pos));
+		tmp[2] = NULL;
+		return (tmp);
+	}
+
 }
 void	sort_env(char **temp_env, char **temp_one)
 {
@@ -36,7 +47,6 @@ void	sort_env(char **temp_env, char **temp_one)
 	
 	size = 0;
 	i = 0;
-	j = 0;
 	while (temp_env[size] != NULL)
         size++;
 
@@ -56,6 +66,18 @@ void	sort_env(char **temp_env, char **temp_one)
 		i ++;
 	}
 }
+void	double_free(char **temp)
+{
+	int i;
+	
+	i = 0;
+	while(temp[i])
+	{
+		free(temp[i]);
+		i ++;
+	}
+	free(temp);
+}
 void	export_print(t_data *data)
 {
 	char **temp_env;
@@ -69,7 +91,16 @@ void	export_print(t_data *data)
 	while(temp_env[i])
 	{
 		temp = get_key_value_pair(temp_env[i]);
-		printf("declare -x %s=\"%s\"\n", temp[0], temp[1]);
+		printf("temp[0] = %s, temp[1] = : %s\n", temp[0], temp[1]);
+		if(temp[0] && temp[1] == NULL)
+		{
+			printf("declare -x %s\n", temp[0]);
+		}
+		else if (temp[0] && temp[1])
+		{
+			printf("declare -x %s=\"%s\"\n", temp[0], temp[1]);
+		}
+		double_free(temp);
 		i ++;
 	}
 }
@@ -77,6 +108,7 @@ void	export_print(t_data *data)
 주어진 변수들을 환경변수에 추가.
 모든 인자가 성공적으로 추가되면 0 반환,
 */
+
 int	export_builtin(t_data *data, char **args)
 {
 	int		i;
@@ -88,6 +120,8 @@ int	export_builtin(t_data *data, char **args)
 	if (!args[i])
 		export_print(data);
 		//return (env_builtin(data, NULL));
+		//export_print(data);
+		//return (env_builtin(data, NULL));
 	while (args[i])
 	{
 		if (!is_valid_env_var_key(args[i]))
@@ -95,10 +129,12 @@ int	export_builtin(t_data *data, char **args)
 			errmsg_cmd("export", args[i], "not a valid identifier", false);
 			ret = EXIT_FAILURE;
 		}
-		else if (ft_strchr(args[i], '=') != NULL)
+		else if (args[i])
 		{
 			tmp = get_key_value_pair(args[i]);
-			set_env_var(data, tmp[0], tmp[1]);
+			printf("temp[0] = %s, temp[1] = %s\n ", tmp[0], tmp[1]);
+			//if (tmp[0] && tmp[1])
+				set_env_var(data, tmp[0], tmp[1]);
 			free_str_tab(tmp);
 		}
 		i++;
