@@ -42,8 +42,7 @@ bool	restore_io(t_io_fds *io)
 }
 
 /* redirect_io:
-입력과 출력 fd를 표준 입력과 출력으로 dup
-실행 후 복원하기 위해 표준 입력과 출력을 교체하기 전에 백업
+입력과 출력 fd를 표준 입력과 출력으로 dup 실행 후 복원하기 위해 표준 입력과 출력을 교체하기 전에 백업
 성공시 1, 오류시 0을 반환
 */
 bool	redirect_io(t_io_fds *io)
@@ -53,10 +52,10 @@ bool	redirect_io(t_io_fds *io)
 	ret = true;
 	if (!io)
 		return (ret);
-	io->stdin_backup = dup(STDIN_FILENO);
+	io->stdin_backup = dup(STDIN_FILENO);//in백업에 0저장
 	if (io->stdin_backup == -1)
 		ret = errmsg_cmd("dup", "stdin backup", strerror(errno), false);
-	io->stdout_backup = dup(STDOUT_FILENO);
+	io->stdout_backup = dup(STDOUT_FILENO);//out백업에 1 저장
 	if (io->stdout_backup == -1)
 		ret = errmsg_cmd("dup", "stdout backup", strerror(errno), false);
 	if (io->fd_in != -1)

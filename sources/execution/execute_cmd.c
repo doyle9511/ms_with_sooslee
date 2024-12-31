@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:52:37 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 16:49:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 23:55:00 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,19 @@ int	execute_command(t_data *data, t_command *cmd)
 				"parsing error: no command to execute!", EXIT_FAILURE));
 	if (!check_infile_outfile(cmd->io_fds))
 		exit_shell(data, EXIT_FAILURE);
-	set_pipe_fds(data->cmd, cmd);
-	redirect_io(cmd->io_fds);
-	close_fds(data->cmd, false);
+	set_pipe_fds(data->cmd, cmd);//해당 명령어의 파이프fd dup()하기
+	redirect_io(cmd->io_fds);//표준입출력 dup 백업저장
+	close_fds(data->cmd, false);//fd 닫을건 닫고 정리
 	if (ft_strchr(cmd->command, '/') == NULL)//빌트인이나 PATH에서 찾을 수 있는 명령어
 	{
-		code = execute_builtin(data, cmd);
+		code = execute_builtin(data, cmd);//ls나 echo, grep 등
 		if (code != CMD_NOT_FOUND)
 			exit_shell(data, code);
-		code = execute_sys_bin(data, cmd);
+		code = execute_sys_bin(data, cmd);//ls -> /bin/ls
 		if (code != CMD_NOT_FOUND)
 			exit_shell(data, code);
 	}// '/'가 있는 경우 ->경로가 명시된 로컬실행파일 -> 바로 execute_local_bin 실행
-	code = execute_local_bin(data, cmd);//ls, 혹은 ./ls 등 실행
+	code = execute_local_bin(data, cmd);//ls, /user/bin/ls 혹은 ./ls 등 실행
 	exit_shell(data, code);
 	return (code);
 }

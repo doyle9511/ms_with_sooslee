@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 09:20:13 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 06:03:06 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 22:18:54 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	exit_shell(t_data *data, int exit_num)//전부 닫고 해제하고 exit
 	if (data != NULL)
 	{
 		if (data->cmd != NULL && data->cmd->io_fds != 0)
-			close_fds(data->cmd, true);
+			close_fds(data->cmd, true);//부모프로세스에서는 계속 실행돼야 하므로 표준입출력 복원 필요함-> true->restore_io()
 		free_data(data, true);
 	}
 	exit(exit_num);

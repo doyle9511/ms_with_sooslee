@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 07:11:32 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 06:01:50 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 22:34:21 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	close_fds(t_command *cmds, bool close_backups)//fd 닫기
 			close(cmds->io_fds->fd_in);
 		if (cmds->io_fds->fd_out != -1)
 			close(cmds->io_fds->fd_out);
-		if (close_backups != 0)
+		if (close_backups != 0)//이 부분은 main함수에서 exit_shell할 때만 쓰임, 방어적프로그래밍 기법이며 자원관리의 원칙 : 변경한 상태는 사용후 원래대로 되돌리기를 위해 
 			restore_io(cmds->io_fds);
 	}
-	close_pipe_fds(cmds, NULL);
+	close_pipe_fds(cmds, NULL);//현재 필ㅇ한 파이프fd를 set_pipe_fd에서 다 dup으로 복사해놔서 닫아도 됨
 }
 
 void	free_io(t_io_fds *io)//fd 구조체 해제
