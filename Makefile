@@ -6,7 +6,7 @@
 #    By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:56:21 by donghwi2          #+#    #+#              #
-#    Updated: 2024/12/26 23:18:02 by sooslee          ###   ########.fr        #
+#    Updated: 2024/12/31 14:52:42 by sooslee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC		= 	main.c \
 			parser/cmd_lst_utils.c \
 			parser/cmd_lst_utils_cleanup.c \
 			builtins/export_builtin.c \
+			builtins/export_builtin_utils.c \
 			builtins/unset_builtin.c \
 			builtins/cd_builtin.c \
 			builtins/env_builtin.c \
