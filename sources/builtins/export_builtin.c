@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:34:59 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/31 14:49:26 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/12/31 14:53:41 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,7 @@ void	sort_env(char **temp_env, char **temp_one)
 		i ++;
 	}
 }
-void	double_free(char **temp)
-{
-	int i;
-	
-	i = 0;
-	while(temp[i])
-	{
-		free(temp[i]);
-		i ++;
-	}
-	free(temp);
-}
+
 void	export_print(t_data *data)
 {
 	char **temp_env;
