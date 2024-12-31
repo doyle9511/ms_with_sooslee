@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 15:02:17 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 16:11:20 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 14:22:58 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,100 @@ static char	**realloc_env_vars(t_data *data, int size)
 주어진 키에 해당하는 환경변수를 주어진 값으로 설정.
 키가 이미 존재하면 값을 덮어쓰고, 없으면 새 항목 생성.
 */
-bool	set_env_var(t_data *data, char *key, char *value)
-{
-	int		idx;
-	char	*tmp;
+// bool	set_env_var(t_data *data, char *key, char *value)
+// {
+// 	int		idx;
+// 	char	*tmp;
 
-	idx = get_env_var_index(data->env, key);
-	if (value == NULL)
-		value = "";
-	tmp = ft_strjoin("=", value);
-	if (!tmp)
-		return (false);
-	if (idx != -1 && data->env[idx])
-	{
-		free_ptr(data->env[idx]);
-		data->env[idx] = ft_strjoin(key, tmp);
-	}
-	else
-	{
-		idx = env_var_count(data->env);
-		data->env = realloc_env_vars(data, idx + 1);
-		if (!data->env)
-			return (false);
-		data->env[idx] = ft_strjoin(key, tmp);
-	}
-	free_ptr(tmp);
-	return (true);
+// 	idx = get_env_var_index(data->env, key);
+// 	if (value == NULL)
+// 		value = "";
+// 	tmp = ft_strjoin("=", value);
+// 	if (!tmp)
+// 		return (false);
+// 	if (idx != -1 && data->env[idx])
+// 	{
+// 		free_ptr(data->env[idx]);
+// 		data->env[idx] = ft_strjoin(key, tmp);
+// 	}
+// 	else
+// 	{
+// 		idx = env_var_count(data->env);
+// 		data->env = realloc_env_vars(data, idx + 1);
+// 		if (!data->env)
+// 			return (false);
+// 		data->env[idx] = ft_strjoin(key, tmp);
+// 	}
+// 	free_ptr(tmp);
+// 	return (true);
+// }
+
+bool create_new_env(char **new_var, const char *value, const char *key)
+{
+    char *tmp;
+
+    if (value == NULL)
+    {
+        *new_var = ft_strdup(key);
+        if (!*new_var)
+            return (false);
+    }
+    else
+    {
+        tmp = ft_strjoin("=", value);
+        if (!tmp)
+            return (false);
+        *new_var = ft_strjoin(key, tmp);
+        free_ptr(tmp);
+        if (!*new_var)
+            return (false);
+    }
+    return (true);
+}
+
+bool set_env_var(t_data *data, char *key, char *value)
+{
+    int     idx;
+    //char    *tmp;
+    char    *new_var;
+
+    idx = get_env_var_index(data->env, key);
+    // 이미 존재하는 변수이고 새 value가 NULL이면 (export abc 같은 경우) 아무것도 하지 않음
+    if (idx != -1 && value == NULL)
+        return (true);
+
+    // if (value == NULL)
+    // {
+    //     new_var = ft_strdup(key);
+    // }
+    // else
+    // {
+    //     tmp = ft_strjoin("=", value);
+    //     if (!tmp)
+    //         return (false);
+    //     new_var = ft_strjoin(key, tmp);
+    //     free_ptr(tmp);
+    // }
+    if (!create_new_env(&new_var, value, key))
+        return (false);
+
+    if (idx != -1 && data->env[idx])
+    {
+        free_ptr(data->env[idx]);
+        data->env[idx] = new_var;
+    }
+    else
+    {
+        idx = env_var_count(data->env);
+        data->env = realloc_env_vars(data, idx + 1);
+        if (!data->env)
+        {
+            free_ptr(new_var);
+            return (false);
+        }
+        data->env[idx] = new_var;
+    }
+    return (true);
 }
 
 bool	remove_env_var(t_data *data, int idx)// 환경변수에서 지정된 인덱스의 변수 제거

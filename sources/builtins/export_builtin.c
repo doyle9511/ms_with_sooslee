@@ -6,7 +6,7 @@
 /*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:34:59 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/30 19:18:13 by sooslee          ###   ########.fr       */
+/*   Updated: 2024/12/31 14:02:09 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,35 +109,66 @@ void	export_print(t_data *data)
 모든 인자가 성공적으로 추가되면 0 반환,
 */
 
-int	export_builtin(t_data *data, char **args)
-{
-	int		i;
-	char	**tmp;
-	int		ret;
+// int	export_builtin(t_data *data, char **args)
+// {
+// 	int		i;
+// 	char	**tmp;
+// 	int		ret;
 
-	ret = EXIT_SUCCESS;
-	i = 1;
-	if (!args[i])
-		export_print(data);
-		//return (env_builtin(data, NULL));
-		//export_print(data);
-		//return (env_builtin(data, NULL));
-	while (args[i])
-	{
-		if (!is_valid_env_var_key(args[i]))
-		{
-			errmsg_cmd("export", args[i], "not a valid identifier", false);
-			ret = EXIT_FAILURE;
-		}
-		else if (args[i])
-		{
-			tmp = get_key_value_pair(args[i]);
-			printf("temp[0] = %s, temp[1] = %s\n ", tmp[0], tmp[1]);
-			//if (tmp[0] && tmp[1])
-				set_env_var(data, tmp[0], tmp[1]);
-			free_str_tab(tmp);
-		}
-		i++;
-	}
-	return (ret);
+// 	ret = EXIT_SUCCESS;
+// 	i = 1;
+// 	if (!args[i])
+// 		export_print(data);
+// 		//return (env_builtin(data, NULL));
+// 		//export_print(data);
+// 		//return (env_builtin(data, NULL));
+// 	while (args[i])
+// 	{
+// 		if (!is_valid_env_var_key(args[i]))
+// 		{
+// 			errmsg_cmd("export", args[i], "not a valid identifier", false);
+// 			ret = EXIT_FAILURE;
+// 		}
+// 		else if (args[i])
+// 		{
+// 			tmp = get_key_value_pair(args[i]);
+// 			printf("temp[0] = %s, temp[1] = %s\n ", tmp[0], tmp[1]);
+// 			 if (ft_strchr(args[i], '='))
+// 				set_env_var(data, tmp[0], tmp[1]);
+// 			free_str_tab(tmp);
+// 		}
+// 		i++;
+// 	}
+// 	return (ret);
+// }
+
+int export_builtin(t_data *data, char **args)
+{
+    int     i;
+    char    **tmp;
+    int     ret;
+
+    ret = EXIT_SUCCESS;
+    i = 1;
+    if (!args[i])
+        export_print(data);
+    while (args[i])
+    {
+        if (!is_valid_env_var_key(args[i]))
+        {
+            errmsg_cmd("export", args[i], "not a valid identifier", false);
+            ret = EXIT_FAILURE;
+        }
+        else if (args[i])
+        {
+            tmp = get_key_value_pair(args[i]);
+            if (ft_strchr(args[i], '='))
+                set_env_var(data, tmp[0], tmp[1]);
+            else
+                set_env_var(data, tmp[0], NULL);  // value를 NULL로 전달
+            free_str_tab(tmp);
+        }
+        i++;
+    }
+    return (ret);
 }
