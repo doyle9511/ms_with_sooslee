@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:46:18 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 17:18:04 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/01 21:57:30 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,21 @@ char	*get_cmd_path(t_data *data, char *name)
 
 	if (!name)
 		return (NULL);
-	env_paths = get_paths_from_env(data);
-	if (!env_paths)
+	env_paths = get_paths_from_env(data);//환경변수 가져오기 (PATH=/usr/local/bin:usr/bin:/bin)
+	if (!env_paths)//						env_paths = ["/usr/local/bin" ... , "/bin"]
 		return (NULL);
-	command = ft_strjoin("/", name);
+	command = ft_strjoin("/", name);//명령어 앞에 '/'추가 (name : "ls" -> command : "/ls")
 	if (!command)
 	{
 		free_str_tab(env_paths);
 		return (NULL);
 	}
-	command_path = find_valid_cmd_path(command, env_paths);
+	command_path = find_valid_cmd_path(command, env_paths);//유효한 경로 찾기 (각 경로에 "/ls"추가해서 존재하는지 체크)
 	if (!command_path)
 	{
 		free_ptr(command);
 		free_str_tab(env_paths);
 		return (NULL);
 	}
-	return (command_path);
+	return (command_path);//일치하는 경로 반환
 }

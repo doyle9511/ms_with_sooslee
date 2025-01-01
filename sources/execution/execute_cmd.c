@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:52:37 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/31 23:55:00 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/01 21:57:43 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	execute_sys_bin(t_data *data, t_command *cmd)
 		return (CMD_NOT_FOUND);
 	if (cmd_is_dir(cmd->command))
 		return (CMD_NOT_FOUND);
-	cmd->path = get_cmd_path(data, cmd->command);
+	cmd->path = get_cmd_path(data, cmd->command);//환경변수에서 일치하는 경로 반환
 	if (!cmd->path)
 		return (CMD_NOT_FOUND);
 	if (execve(cmd->path, cmd->args, data->env) == -1)
@@ -100,13 +100,13 @@ int	execute_command(t_data *data, t_command *cmd)
 	if (ft_strchr(cmd->command, '/') == NULL)//빌트인이나 PATH에서 찾을 수 있는 명령어
 	{
 		code = execute_builtin(data, cmd);//ls나 echo, grep 등
-		if (code != CMD_NOT_FOUND)
-			exit_shell(data, code);
-		code = execute_sys_bin(data, cmd);//ls -> /bin/ls
-		if (code != CMD_NOT_FOUND)
-			exit_shell(data, code);
-	}// '/'가 있는 경우 ->경로가 명시된 로컬실행파일 -> 바로 execute_local_bin 실행
+		if (code != CMD_NOT_FOUND)//builtin이 성공적으로 실행됐다면
+			exit_shell(data, code);//자식 종료
+		code = execute_sys_bin(data, cmd);//(builtin아니면 여기 진행)ls -> /bin/ls
+		if (code != CMD_NOT_FOUND)//PATH에서 찾아서 실행했다면
+			exit_shell(data, code);//자식 종료 ()
+	}// 아래로 넘어가는 경우_1.'/'표함된 상대/절대 경로 경우 / 2. 없는 명령어 / 3. /가 없지만 현재 디렉토리에 있는 실행파일
 	code = execute_local_bin(data, cmd);//ls, /user/bin/ls 혹은 ./ls 등 실행
-	exit_shell(data, code);
+	exit_shell(data, code);//로컬에서조차 찾기 실패했다먼 에러반환후 자식 종료
 	return (code);
 }

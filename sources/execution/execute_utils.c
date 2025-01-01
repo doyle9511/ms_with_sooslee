@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 21:19:31 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 17:07:21 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/01 22:09:30 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ invalidcmd     # command not found
 */
 int	check_command_not_found(t_data *data, t_command *cmd)
 {
-	if (ft_strchr(cmd->command, '/') == NULL
-		&& get_env_var_index(data->env, "PATH") != -1)
+	if (ft_strchr(cmd->command, '/') == NULL// '/'가 없고 PATH환경변수가 있는 경우
+		&& get_env_var_index(data->env, "PATH") != -1)// (PATH도 있고, '/'도 없는데 여기까지 왔다? -> 이미 검색실패)
 		return (errmsg_cmd(cmd->command, NULL, "command not found",
 				CMD_NOT_FOUND));
-	if (access(cmd->command, F_OK) != 0)
+	if (access(cmd->command, F_OK) != 0)//파일이 존재하지 않는 경우
 		return (errmsg_cmd(cmd->command, NULL, strerror(errno), CMD_NOT_FOUND));
-	else if (cmd_is_dir(cmd->command))
+	else if (cmd_is_dir(cmd->command))//디렉토리인 경우
 		return (errmsg_cmd(cmd->command, NULL, "Is a directory",
 				CMD_NOT_EXECUTABLE));
-	else if (access(cmd->command, F_OK | X_OK) != 0)
+	else if (access(cmd->command, F_OK | X_OK) != 0)//파일은 존재하지만 실행권한이 없는 경우
 		return (errmsg_cmd(cmd->command, NULL, strerror(errno),
 				CMD_NOT_EXECUTABLE));
 	return (EXIT_SUCCESS);
