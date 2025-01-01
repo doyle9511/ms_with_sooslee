@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 09:20:13 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/31 22:18:54 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/01 23:19:28 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	minishell_run(t_data *data)
 {
 	while (1)
 	{
-		set_signal();
+		set_signal();//while안에 있는 이유 : 자식프로세스가 다른 시그널 동작 필요할 수 있어서 원상태 복구 필요
 		data->user_input = readline("Minishell $>");
 		if (parse_user_input(data) == true)//token화 시켜서 command로 전환
 			g_last_exit_code = execute(data);

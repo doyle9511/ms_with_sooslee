@@ -6,13 +6,13 @@
 /*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 12:51:20 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/23 05:57:30 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/02 00:26:23 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	consecutive_ops(t_token *token_node)//seperator 연속사용(+ END) 체크
+static bool	seperator_double_ops(t_token *token_node)//seperator 연속사용(+ END) 체크
 {
 	if (token_node->prev != 0)
 	{
@@ -26,14 +26,14 @@ static bool	consecutive_ops(t_token *token_node)//seperator 연속사용(+ END) 
 	return (true);
 }
 
-int	check_consecutives(t_token **token_lst)
+static int	check_seperator_double(t_token **token_lst)
 {
 	t_token	*temp;
 
 	temp = *token_lst;
 	while (temp)
 	{
-		if (consecutive_ops(temp) == false)//sep연속사용했을 때 출력될 에러메세지 선택
+		if (seperator_double_ops(temp) == false)//sep연속사용했을 때 출력될 에러메세지 선택
 		{
 			if (temp->type == END && temp->prev && temp->prev->type > PIPE)
 				errmsg("syntax error near unexpected token", "newline", true);
@@ -59,7 +59,7 @@ static void	variable_check(t_token **token_node)
 		if ((*token_node)->str[i] == '$')
 		{
 			if ((*token_node)->prev && (*token_node)->prev->type == HEREDOC)
-				break ;//이전 노드가 [히어독]이면 타입지정 스킵
+				break ;//이전 노드가 [히어독]이면 스킵 (ex_ cat << $USER 이렇게 되면 $USER은 환경변수로서가 아니라 구분자로 그대로 사용돼야함.)
 			(*token_node)->type = VAR;//$ 발견시 VAR 지정
 			return ;
 		}
@@ -79,8 +79,8 @@ int	check_if_var(t_token **token_lst)
 	}
 	while (temp)//토큰이 끝날 때 까지
 	{
-		variable_check(&temp);//
-		if (check_consecutives(&temp) == FAILURE)
+		variable_check(&temp);//환경변수 발견하면 type = VAR 지정
+		if (check_seperator_double(&temp) == FAILURE)
 			return (FAILURE);
 		temp = temp->next;
 	}

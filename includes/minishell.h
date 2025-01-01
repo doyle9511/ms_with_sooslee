@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:20:47 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/31 14:53:17 by sooslee          ###   ########.fr       */
+/*   Updated: 2025/01/02 00:23:39 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int			save_separator(t_token **token_lst, char *str, int index, int type);
 
 // check_if_var.c
 int			check_if_var(t_token **token_lst);
-int			check_consecutives(t_token **token_lst);
 
 // token_lst_utils.c
 t_token		*lst_new_token(char *str, char *str_backup, int type, int status);
