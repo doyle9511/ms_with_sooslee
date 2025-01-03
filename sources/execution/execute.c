@@ -6,7 +6,7 @@
 /*   By: donghwi2 <donghwi2@student.42gyeongsan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 10:11:43 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/30 18:49:27 by donghwi2         ###   ########.fr       */
+/*   Updated: 2025/01/03 09:40:13 by donghwi2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ int	execute(t_data *data)
 	if (!data->cmd->pipe_output && !data->cmd->prev
 		&& check_infile_outfile(data->cmd->io_fds))//infile / outfile 존재하면
 	{
-		redirect_io(data->cmd->io_fds);
+		redirect_io(data->cmd->io_fds);//입출력 fd를 표준입출력으로 dup()
 		code = execute_builtin(data, data->cmd);
-		restore_io(data->cmd->io_fds);
+		restore_io(data->cmd->io_fds);//입출력 fd 복원
 	}
 	if (code != CMD_NOT_FOUND)
 		return (code);

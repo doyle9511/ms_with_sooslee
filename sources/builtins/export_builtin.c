@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:34:59 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/27 00:20:15 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 14:53:41 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,23 @@ static char	**get_key_value_pair(char *arg)
 	char	**tmp;
 	char	*eq_pos;
 
-	eq_pos = ft_strchr(arg, '=');
-	tmp = malloc(sizeof * tmp * (2 + 1));
-	tmp[0] = ft_substr(arg, 0, eq_pos - arg);	
-	tmp[1] = ft_substr(eq_pos, 1, ft_strlen(eq_pos));
-	tmp[2] = NULL;
-	return (tmp);
+	if (ft_strchr(arg, '=') == NULL)
+	{
+		tmp = malloc(sizeof * tmp * (2 + 1));
+		tmp[0] = ft_substr(arg, 0, ft_strlen(arg));
+		tmp[1] = NULL;
+		return (tmp);
+	}
+	else
+	{
+		eq_pos = ft_strchr(arg, '=');
+		tmp = malloc(sizeof * tmp * (2 + 1));
+		tmp[0] = ft_substr(arg, 0, eq_pos - arg);	
+		tmp[1] = ft_substr(eq_pos, 1, ft_strlen(eq_pos));
+		tmp[2] = NULL;
+		return (tmp);
+	}
+
 }
 void	sort_env(char **temp_env, char **temp_one)
 {
@@ -36,7 +47,6 @@ void	sort_env(char **temp_env, char **temp_one)
 	
 	size = 0;
 	i = 0;
-	j = 0;
 	while (temp_env[size] != NULL)
         size++;
 
@@ -56,6 +66,7 @@ void	sort_env(char **temp_env, char **temp_one)
 		i ++;
 	}
 }
+
 void	export_print(t_data *data)
 {
 	char **temp_env;
@@ -69,7 +80,15 @@ void	export_print(t_data *data)
 	while(temp_env[i])
 	{
 		temp = get_key_value_pair(temp_env[i]);
-		printf("declare -x %s=\"%s\"\n", temp[0], temp[1]);
+		if(temp[0] && temp[1] == NULL)
+		{
+			printf("declare -x %s\n", temp[0]);
+		}
+		else if (temp[0] && temp[1])
+		{
+			printf("declare -x %s=\"%s\"\n", temp[0], temp[1]);
+		}
+		double_free(temp);
 		i ++;
 	}
 }
@@ -77,17 +96,27 @@ void	export_print(t_data *data)
 주어진 변수들을 환경변수에 추가.
 모든 인자가 성공적으로 추가되면 0 반환,
 */
-int	export_builtin(t_data *data, char **args)
+void	add_new_env(t_data *data, char **tmp, char **args, int *i)
 {
-	int		i;
-	char	**tmp;
-	int		ret;
+	tmp = get_key_value_pair(args[*i]);
+	if (ft_strchr(args[*i], '='))
+		set_env_var(data, tmp[0], tmp[1]);
+	else
+		set_env_var(data, tmp[0], NULL);  // value를 NULL로 전달
+	free_str_tab(tmp);
+}
 
+int export_builtin(t_data *data, char **args)
+{
+	int	i;
+	char	**tmp;
+	int	ret;
+	
 	ret = EXIT_SUCCESS;
 	i = 1;
+	tmp = NULL;
 	if (!args[i])
 		export_print(data);
-		//return (env_builtin(data, NULL));
 	while (args[i])
 	{
 		if (!is_valid_env_var_key(args[i]))
@@ -95,11 +124,9 @@ int	export_builtin(t_data *data, char **args)
 			errmsg_cmd("export", args[i], "not a valid identifier", false);
 			ret = EXIT_FAILURE;
 		}
-		else if (ft_strchr(args[i], '=') != NULL)
+		else if (args[i])
 		{
-			tmp = get_key_value_pair(args[i]);
-			set_env_var(data, tmp[0], tmp[1]);
-			free_str_tab(tmp);
+			add_new_env(data, tmp, args, &i);
 		}
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghwi2 <donghwi2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sooslee <sooslee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 21:20:47 by donghwi2          #+#    #+#             */
-/*   Updated: 2024/12/26 17:46:09 by donghwi2         ###   ########.fr       */
+/*   Updated: 2024/12/31 14:53:17 by sooslee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,7 @@ int			export_builtin(t_data *data, char **args);
 int			unset_builtin(t_data *data, char **args);
 int			cd_builtin(t_data *data, char **args);
 int			exit_builtin(t_data *data, char **args);
+void	double_free(char **temp);
 
 // signal.c
 void		ignore_sigquit(void);
